@@ -437,7 +437,7 @@
 
                 this.$node.on('click', `.${SELECTORS.BUTTONS.RECEIVE}`, () => {
 
-                    this.modalManager.showReceiveModal(this.balance.asset);
+                    this.modalManager.showReceiveModal(this.balance.asset, true);
                 });
 
                 this.$node.on('click', `.${SELECTORS.BUTTONS.TOGGLE_SPAM}`, () => {
@@ -456,7 +456,7 @@
 
                 this.$node.on('click', `.${SELECTORS.ACTION_BUTTONS.RECEIVE}`, () => {
 
-                    this.modalManager.showReceiveModal(this.balance.asset);
+                    this.modalManager.showReceiveModal(this.balance.asset, true);
                 });
 
                 this.$node.on('click', `.${SELECTORS.ACTION_BUTTONS.BURN}`, () => {

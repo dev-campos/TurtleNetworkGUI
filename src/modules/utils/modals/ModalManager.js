@@ -520,12 +520,13 @@
 
             /**
              * @param {Asset} [asset]
+             * @param {boolean} [haveTabs]
              * @return {Promise}
              */
-            showReceiveModal(asset) {
+            showReceiveModal(asset, haveTabs) {
                 return this._getModal({
                     id: 'receive-popup',
-                    locals: { asset },
+                    locals: { asset, haveTabs },
                     templateUrl: 'modules/utils/modals/receive/Receive.html',
                     controller: 'ReceiveCtrl'
                 });

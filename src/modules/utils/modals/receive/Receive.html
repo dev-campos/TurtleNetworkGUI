@@ -2,26 +2,34 @@
     <md-dialog-content>
         <div class="modal-content">
             <div class="btn icon-close ng-scope" w-modal-close></div>
-
-            <w-tabs class="tabs" ng-model="$ctrl.activeTab">
-                <w-tab ng-if="$ctrl.tabs.invoice" title-name="::'modal.receive.invoice.title'" id="::'invoice'">
-                    <w-receive-invoice
-                            asset="$ctrl.asset"
-                            invoicables="::$ctrl.invoicables"
-                            is-single-asset="::$ctrl.isSingleAsset"
-                            on-asset-change="$ctrl.updateAssetBy(id)"
-                    ></w-receive-invoice>
-                </w-tab>
-                <w-tab ng-if="$ctrl.tabs.cryptocurrency" title-name="::'modal.receive.cryptocurrency.title'" id="::'cryptocurrency'">
-                    <w-receive-cryptocurrency
-                        asset="$ctrl.asset"
-                        cryptocurrencies="::$ctrl.gatewayCryptocurrencies"
-                        is-single-asset="::$ctrl.isSingleAsset"
-                        on-asset-change="$ctrl.updateAssetBy(id)"
-                    ></w-receive-cryptocurrency>
-                </w-tab>
-
-            </w-tabs>
+            <div ng-if="$ctrl.haveTabs">
+              <w-tabs class="tabs" ng-model="$ctrl.activeTab">
+                  <w-tab ng-if="$ctrl.tabs.invoice" title-name="::'modal.receive.invoice.title'" id="::'invoice'">
+                      <w-receive-invoice
+                              asset="$ctrl.asset"
+                              invoicables="::$ctrl.invoicables"
+                              is-single-asset="::$ctrl.isSingleAsset"
+                              on-asset-change="$ctrl.updateAssetBy(id)"
+                      ></w-receive-invoice>
+                  </w-tab>
+                  <w-tab ng-if="$ctrl.tabs.cryptocurrency" title-name="::'modal.receive.cryptocurrency.title'" id="::'cryptocurrency'">
+                      <w-receive-cryptocurrency
+                          asset="$ctrl.asset"
+                          cryptocurrencies="::$ctrl.gatewayCryptocurrencies"
+                          is-single-asset="::$ctrl.isSingleAsset"
+                          on-asset-change="$ctrl.updateAssetBy(id)"
+                      ></w-receive-cryptocurrency>
+                  </w-tab>
+              </w-tabs>
+            </div>
+            <div class="tabless" ng-if="$ctrl.haveTabs==false">
+                <w-receive-cryptocurrency
+                    asset="$ctrl.asset"
+                    cryptocurrencies="::$ctrl.gatewayCryptocurrencies"
+                    is-single-asset="::$ctrl.isSingleAsset"
+                    on-asset-change="$ctrl.updateAssetBy(id)"               
+                ></w-receive-cryptocurrency>
+            </div>
         </div>
     </md-dialog-content>
 </md-dialog>

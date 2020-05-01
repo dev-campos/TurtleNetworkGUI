@@ -177,7 +177,7 @@
                 }
 
                 if (action === 'receive') {
-                    return this.showReceivePopup(asset);
+                    return this.showReceivePopup(asset, true);
                 }
 
                 throw new Error('Wrong action');
@@ -199,8 +199,7 @@
             }
 
             showReceivePopup(asset) {
-
-                return modalManager.showReceiveModal(asset);
+                return modalManager.showReceiveModal(asset, true);
             }
 
             showSeedBackupModals() {

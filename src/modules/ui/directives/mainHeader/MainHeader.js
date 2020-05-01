@@ -141,6 +141,13 @@
             }
 
             /**
+             * @param {Asset} asset
+             */
+            showDepositPopup(asset) {
+                return modalManager.showReceiveModal(asset, false);
+            }
+
+            /**
              * @public
              */
             hideTooltip() {

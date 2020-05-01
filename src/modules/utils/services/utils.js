@@ -2262,4 +2262,3 @@
  * @property {number} hours
  * @property {number} seconds?
  */
-

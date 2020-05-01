@@ -34,15 +34,14 @@
             </w-option>
         </w-select>
     </div>
-    </div>
 
-    
+
 
     <div class="plate-warning" ng-if="!$ctrl.gatewayServerError && !$ctrl.gatewayServerPending && $ctrl.gatewayType === 'attachment'">
         <div class="body-2 warning-500" w-i18n="modal.deposit.warningTitle"></div>
         <div class="footnote-1 basic-500" w-i18n="modal.deposit.warningText"></div>
     </div>
-    
+
     <div class="plate-warning" ng-if="!$ctrl.gatewayServerError && !$ctrl.gatewayServerPending && $ctrl.gatewayType === 'attachment'">
         <div class="body-2 warning-500"
         w-i18n="modal.deposit.attachmentInstructions"
@@ -115,7 +114,7 @@
         {{$ctrl.gatewayAddress}}
         <w-loader class="loader" ng-if="!$ctrl.gatewayAddress"></w-loader>
     </w-copy-wrap>
-    
+
 
     <div class="get-started-link__or or" ng-if="!$ctrl.gatewayServerError && $ctrl.gatewayType === 'deposit'">
         <span class="get-started-link__or-content" w-i18n="modal.deposit.or"></span>

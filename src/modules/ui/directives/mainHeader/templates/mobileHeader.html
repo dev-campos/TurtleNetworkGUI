@@ -84,6 +84,11 @@
                 <a href="#" class="mobile-menu__link mobile-menu__link_has-child" w-i18n="welcome.wallet"
                    w-toggle-class="mobile-menu-inner-expanded"></a>
             </li>
+            <li w-toggle-class="expanded" class="mobile-menu__item">
+              <button class="mobile-menu__link mobile-menu__link_deposit" ng-click="$ctrl.showDepositPopup()">
+                  <span w-i18n="welcome.deposit"></span>
+              </button>
+            </li>
             <li ng-if="$ctrl.advancedMode" w-toggle-class="expanded" class="mobile-menu__item">
                 <a ng-click="$ctrl.removeBodyClass()"
                    ui-sref="main.tokens" w-i18n="welcome.createToken"

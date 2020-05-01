@@ -46,13 +46,15 @@
              */
             invoicables;
 
-            constructor({ asset }) {
+            constructor({ asset, haveTabs }) {
                 super($scope);
 
                 /**
                  * @type {Asset}
                  */
                 this.asset = asset;
+
+                this.haveTabs = haveTabs;
 
                 if (this.asset) {
                     this.isSingleAsset = true;
