@@ -131,6 +131,10 @@
             updateGatewayAddress() {
                 this.gatewayServerError = false;
                 this.gatewayServerPending = true;
+                if (!this.asset) {
+                    const gatewayList = WavesApp.network.wavesGateway;
+                    this.asset = gatewayList[Object.keys(gatewayList)[0]];
+                }
 
                 const depositDetails = gatewayService.getDepositDetails(this.asset, user.address);
 
