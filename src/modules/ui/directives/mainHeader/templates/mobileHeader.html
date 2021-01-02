@@ -94,6 +94,13 @@
                    ui-sref="main.tokens" w-i18n="welcome.createToken"
                    class="mobile-menu__link"></a>
             </li>
+
+            <li ng-if="$ctrl.betaFeatures" w-toggle-class="expanded" class="mobile-menu__item">
+                <!-- FIXME: put correct ui-sref -->
+                <a ng-click="$ctrl.removeBodyClass()"
+                   ui-sref="main.tokens" w-i18n="welcome.voting"
+                   class="mobile-menu__link"></a>
+            </li>
             <li w-toggle-class="expanded" ng-click="$ctrl.logout()" class="mobile-menu__item mobile-menu__item_logout">
                 <a ng-click="$ctrl.removeBodyClass()"
                    class="mobile-menu__link mobile-menu__link_logout"

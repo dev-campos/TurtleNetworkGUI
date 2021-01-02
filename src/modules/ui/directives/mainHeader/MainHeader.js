@@ -38,6 +38,7 @@
     ) {
 
         const PATH = 'modules/ui/directives/mainHeader/templates';
+
         class MainHeaderCtrl extends Base {
 
             /**
@@ -81,6 +82,10 @@
              * @type {boolean}
              */
             advancedMode = false;
+            /**
+             * @type {boolean}
+             */
+            betaFeatures = false;
 
             get isSignedIn() {
                 return multiAccount.isSignedIn;
@@ -136,7 +141,8 @@
                     this.hasMultiAccount = !!data;
                 });
                 this.syncSettings({
-                    advancedMode: 'advancedMode'
+                    advancedMode: 'advancedMode',
+                    betaFeatures: 'betaFeatures'
                 });
             }
 
@@ -446,8 +452,8 @@
             }
 
             /**
-            * @private
-            */
+             * @private
+             */
             _resetUserFields() {
                 this.address = user.address || '3PHBX4uXhCyaANUxccLHNXw3sqyksV7YnDz';
                 this.isLogined = !!user.address;

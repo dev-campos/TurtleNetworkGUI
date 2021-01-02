@@ -36,12 +36,17 @@
 <!--                        <label class="checkbox-input__label" for="openLinkViaWeb" w-i18n="modal.settings.general.openLinkViaWeb"></label>-->
 <!--                    </div>-->
 <!--                </w-web-only>-->
+                <div class="row flex-row row-style">
+                    <div class="checkbox-input settings-content__checkbox">
+                        <w-checkbox-submit class="checkbox-submit" id="advancedMode" ng-model="$ctrl.advancedMode"></w-checkbox-submit>
+                        <label class="checkbox-input__label" for="advancedMode" w-i18n="modal.termsAccept.body.advancedMode"></label>
+                    </div>
 
-                <div class="checkbox-input settings-content__checkbox">
-                    <w-checkbox-submit class="checkbox-submit" id="advancedMode" ng-model="$ctrl.advancedMode"></w-checkbox-submit>
-                    <label class="checkbox-input__label" for="advancedMode" w-i18n="modal.termsAccept.body.advancedMode"></label>
+                    <div class="checkbox-input settings-content__checkbox">
+                        <w-checkbox-submit class="checkbox-submit" id="betaFeatures" ng-model="$ctrl.betaFeatures"></w-checkbox-submit>
+                        <label class="checkbox-input__label" for="betaFeatures" w-i18n="modal.termsAccept.body.betaFeatures"></label>
+                    </div>
                 </div>
-
                 <div class="row flex-row row-style unit-select">
                     <div class="footnote-1 basic-500" w-i18n="modal.settings.general.language"></div>
                     <w-change-language on-change="$ctrl.onChangeLanguage(language)"></w-change-language>

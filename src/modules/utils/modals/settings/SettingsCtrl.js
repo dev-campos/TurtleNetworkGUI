@@ -50,6 +50,15 @@
                 user.setSetting('advancedMode', mode);
             }
 
+
+            get betaFeatures() {
+                return user.getSetting('betaFeatures');
+            }
+
+            set betaFeatures(enabled) {
+                user.setSetting('betaFeatures', enabled);
+            }
+
             allowParing = true;
             encodedSeed = '';
             shownEncodedSeed = false;
@@ -92,6 +101,7 @@
                 super($scope);
 
                 this.observe('tab', () => {
+                    // eslint-disable-next-line no-unused-vars
                     const tabName = this.tab.slice(0, 1).toUpperCase() + this.tab.slice(1);
                 });
 

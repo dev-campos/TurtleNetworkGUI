@@ -90,6 +90,8 @@
         <span w-i18n="welcome.deposit"></span>
     </button>
     <a ng-if="$ctrl.advancedMode" class="top-menu__link top-menu__link-tokens" ui-sref="main.tokens" w-i18n="welcome.createToken"></a>
+    <!-- FIXME: put correct ui-sref -->
+    <a ng-if="$ctrl.betaFeatures" class="top-menu__link top-menu__link-tokens" ui-sref="main.tokens" w-i18n="welcome.voting"></a>
 </nav>
 
 <w-web-only class="block-right">

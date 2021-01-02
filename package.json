@@ -143,7 +143,6 @@
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged",
-      "commit-msg": "ts-node ./ts-scripts/commit-msg.ts $HUSKY_GIT_PARAMS",
       "post-commit": "git update-index --again"
     }
   },
