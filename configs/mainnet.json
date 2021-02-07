@@ -27,7 +27,7 @@
   },
   "apiVersion": "v0",
   "code": "L",
-  "node": "https://tnnode2.turtlenetwork.eu",
+  "node": "https://cluster.tnnode.turtlenetwork.eu",
   "matcher": "https://matcher.turtlenetwork.eu/matcher",
   "api": "https://data-service.turtlenetwork.eu",
   "explorer": "https://explorer.turtlenetwork.eu",

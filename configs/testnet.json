@@ -11,7 +11,7 @@
   },
   "apiVersion": "v0",
   "code": "l",
-  "node": "https://testnet.tnnode.turtlenetwork.eu",
+  "node": "https://cluster.testnet.tnnode.turtlenetwork.eu",
   "matcher": "https://testnet.matcher.turtlenetwork.eu/matcher",
   "api":  "https://testnet.data-service.turtlenetwork.eu",
   "explorer": "https://explorer.turtlenetwork.eu/testnet",
