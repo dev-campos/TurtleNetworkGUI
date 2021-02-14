@@ -118,6 +118,7 @@
         'app.wallet',
         'app.dex',
         'app.tokens',
+        'app.voting',
         'app.unavailable',
         'app.stand'
     ]);
