@@ -72,6 +72,11 @@
 
     </div>
 
+    <div class="plate-warning" ng-if="!$ctrl.gatewayServerError && !$ctrl.gatewayServerPending && $ctrl.gatewayType === 'round-robin'">
+        <div class="body-2 warning-500 bold" w-i18n="modal.deposit.expiryWarningTitle"></div>
+        <div class="footnote-1 basic-500 margin-05" w-i18n="modal.deposit.expiryWarningText"  params="{ expiry: $ctrl.gatewayExpiry.toLocaleString() }"></div>
+    </div>
+
     <div class="plate-warning" ng-if="!$ctrl.gatewayServerError && !$ctrl.gatewayServerPending && $ctrl.gatewayType === 'attachment'">
         <div class="body-2 warning-500 bold" w-i18n="modal.deposit.attachmentInstructionsTitle" params="{ assetTicker: $ctrl.asset.displayName }"></div>
         <div class="footnote-1 basic-500 bold" w-i18n="modal.deposit.attachmentInstructionsText" params="{  walletAddress: $ctrl.walletAddress  }"></div>
@@ -129,13 +134,13 @@
 
 
 
-    <div class="get-started-link__or or" ng-if="!$ctrl.gatewayServerError && $ctrl.gatewayType === 'deposit'">
+    <div class="get-started-link__or or" ng-if="!$ctrl.gatewayServerError && ($ctrl.gatewayType === 'deposit' || $ctrl.gatewayType === 'round-robin')">
         <span class="get-started-link__or-content" w-i18n="modal.deposit.or"></span>
     </div>
-    <div class="qr-wrapper center margin-2" ng-if="!$ctrl.gatewayServerError && $ctrl.gatewayType === 'deposit'" w-toggle-class-container>
+    <div class="qr-wrapper center margin-2" ng-if="!$ctrl.gatewayServerError && ($ctrl.gatewayType === 'deposit' || $ctrl.gatewayType === 'round-robin')" w-toggle-class-container>
         <div class="body-2 basic-900 margin-05" w-i18n="modal.deposit.scanQrCode"></div>
 
-        <w-qr-code ng-if="!$ctrl.gatewayServerError && $ctrl.gatewayType === 'deposit'" size="200" url="$ctrl.gatewayAddress" w-toggle-class="zoomed-in"></w-qr-code>
+        <w-qr-code ng-if="!$ctrl.gatewayServerError && ($ctrl.gatewayType === 'deposit' || $ctrl.gatewayType === 'round-robin')" size="200" url="$ctrl.gatewayAddress" w-toggle-class="zoomed-in"></w-qr-code>
 
         <div class="pointer center footnote-1 margin-top-1 basic-500"
             w-toggle-class="zoomed-in"

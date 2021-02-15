@@ -58,6 +58,15 @@
 
             }
 
+            getRobinAddress(asset, walletAddress, toTN) {
+                const gateway = this._findGatewayFor(asset, 'deposit');
+
+                if (gateway) {
+                    return gateway.getRobinAddress(asset, walletAddress, toTN);
+                }
+
+            }
+
             /**
              * @param {Asset} asset
              * @param {string} targetAddress

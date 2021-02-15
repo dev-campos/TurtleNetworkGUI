@@ -118,7 +118,7 @@
                     this.state.singleSend.recipient = options.recipient;
                     this.state.singleSend.attachment = options.attachment;
 
-                    const toGateway = this.sendMode === 'gateway' && this.gatewayDetails;
+                    const toGateway = (this.sendMode === 'gateway' || this.sendMode === 'robin') && this.gatewayDetails;
                     const attachment = toGateway ? this.gatewayDetails.attachment : options.attachment;
                     const attachmentString = attachment ? attachment.toString() : '';
                     const bytesAttachment = utils.stringToBytes(attachmentString);
@@ -175,7 +175,11 @@
 
             checkSendMode() {
                 if (this._isOuterBlockchains()) {
-                    this.setMode('gateway');
+                    if (this._isRobin()) {
+                        this.setMode('robin');
+                    } else {
+                        this.setMode('gateway');
+                    }
                 } else {
                     this.setMode('waves');
                 }
@@ -265,7 +269,7 @@
              * @private
              */
             _onChangeSendMode() {
-                if (this.sendMode === 'gateway') {
+                if (this.sendMode === 'gateway' || this.sendMode === 'robin') {
                     this.updateGatewayData();
                 } else {
                     this.gatewayData = {
@@ -273,6 +277,14 @@
                         error: null
                     };
                 }
+            }
+
+            /**
+             * @return {boolean}
+             * @private
+             */
+            _isRobin() {
+                return WavesApp.network.wavesGateway[this.state.assetId].otherNetwork;
             }
 
             /**

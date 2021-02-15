@@ -50,6 +50,42 @@
 
             }
 
+            // Only used for round robin type gateways
+            getRobinAddress(asset, walletAddress, toTN) {
+                WavesGatewayService._assertAsset(asset.id);
+
+                const OTHERNETWORK = `${WavesApp.network.wavesGateway[asset.id].otherNetwork}`;
+                const TICKER = `${WavesApp.network.wavesGateway[asset.id].ticker}`;
+
+                let src = OTHERNETWORK;
+                let dst = 'TurtleNetwork';
+                if (!toTN) {
+                    src = 'TurtleNetwork';
+                    dst = OTHERNETWORK;
+                }
+
+                const ASSETGATEWAY = `${WavesApp.network.wavesGateway[asset.id].url}`;
+                const headers = {};
+                headers['Content-Type'] = 'application/json';
+                headers.Accept = 'application/json';
+                const body = JSON.stringify({
+                    ticker: TICKER,
+                    dstAddress: walletAddress,
+                    srcNetwork: src,
+                    dstNetwork: dst
+                });
+
+                return ds
+                    .fetch(`${ASSETGATEWAY}/api/deposits`, { method: 'POST', headers, body })
+                    .then(details => {
+                        return {
+                            address: details.depositAddress,
+                            expiry: details.expiry
+                        };
+                    });
+
+            }
+
             /**
              * From VST to Waves
              * @param {Asset} asset
@@ -60,19 +96,25 @@
                 WavesGatewayService._assertAsset(asset.id);
 
                 const ASSETGATEWAY = `${WavesApp.network.wavesGateway[asset.id].url}`;
+                const OTHERNETWORK = `${WavesApp.network.wavesGateway[asset.id].otherNetwork}`;
+                const TICKER = `${WavesApp.network.wavesGateway[asset.id].ticker}`;
                 const headers = {};
                 headers['Content-Type'] = 'application/json';
                 headers.Accept = 'application/json';
 
+                let fetchUrl = `${ASSETGATEWAY}/api/fullinfo`;
+                if (WavesApp.network.wavesGateway[asset.id].otherNetwork) {
+                    fetchUrl = `${ASSETGATEWAY}/api/full-info/${OTHERNETWORK}/${TICKER}`;
+                }
+
                 return ds
-                    .fetch(`${ASSETGATEWAY}/api/fullinfo`, { method: 'GET', headers })
+                    .fetch(fetchUrl, { method: 'GET', headers })
                     .then(details => {
                         return {
                             address: details.otherAddress,
                             minimumAmount: new BigNumber(details.minAmount),
                             maximumAmount: new BigNumber(details.maxAmount),
                             gatewayFee: new BigNumber(details.fee),
-                            tn_total_fee: new BigNumber(details.tn_total_fee),
                             disclaimerLink: details.disclaimer,
                             minRecoveryAmount: new BigNumber(details.recovery_amount),
                             recoveryFee: new BigNumber(details.recovery_fee),
@@ -96,12 +138,19 @@
                 WavesGatewayService._assertAsset(asset.id);
 
                 const ASSETGATEWAY = `${WavesApp.network.wavesGateway[asset.id].url}`;
+                const OTHERNETWORK = `${WavesApp.network.wavesGateway[asset.id].otherNetwork}`;
+                const TICKER = `${WavesApp.network.wavesGateway[asset.id].ticker}`;
                 const headers = {};
                 headers['Content-Type'] = 'application/json';
                 headers.Accept = 'application/json';
 
+                let fetchUrl = `${ASSETGATEWAY}/api/fullinfo`;
+                if (WavesApp.network.wavesGateway[asset.id].otherNetwork) {
+                    fetchUrl = `${ASSETGATEWAY}/api/full-info/${OTHERNETWORK}/${TICKER}`;
+                }
+
                 return ds
-                    .fetch(`${ASSETGATEWAY}/api/fullinfo`, { method: 'GET', headers: headers })
+                    .fetch(fetchUrl, { method: 'GET', headers: headers })
                     .then(details => {
                         return {
                             address: details.tnAddress,

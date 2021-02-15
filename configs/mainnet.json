@@ -101,9 +101,11 @@
       "regex": "^0x[a-fA-F0-9]{40}$"
     },
     "7RB3BWayeCVPq3kkpkeJZAFv2DYCB5gEwnutEpRofaw4": {
-      "url": "https://tn-usdt.ethereum.gateway.polarity.exchange",
+      "url": "https://gateway-service.polarity.exchange",
       "isThirdParty": true,
-      "regex": "^0x[a-fA-F0-9]{40}$"
+      "regex": "^0x[a-fA-F0-9]{40}$",
+      "ticker": "USDT",
+      "otherNetwork": "Ethereum"
     }
   },
   "support": "https://support@turtlenetwork.eu",
