@@ -16,13 +16,25 @@
 
         class VotingCtrl extends Base {
 
+            /**
+             *  The polling data coming from the oracle
+             * @type {Object}
+             */
+            pollData = {};
+
             constructor() {
                 super($scope);
+                votingService.fetchPolls().then(data => {
+                    this.pollData = data;
+                });
             }
 
             $onDestroy() {
-                // super.$onDestroy();
-                // this._listeners.forEach(listener => listener());
+                super.$onDestroy();
+            }
+
+            getPollsAsArray() {
+                return Object.keys(this.pollData).map(k => this.pollData[k]);
             }
 
         }
