@@ -1,0 +1,11 @@
+<div class="voting-page movable">
+    <div w-i18n-ns="app.voting" class="voting-page__wrapper">
+        <div class="voting-page__title basic-900 headline-2" w-i18n="pageTitle"></div>
+        <div class="voting-page__content">
+            <div class="order-row"
+                 ng-repeat="poll in $ctrl.getPollsAsArray() track by $index">
+                <h1>{{poll.title}}</h1>
+            </div>
+        </div>
+    </div>
+</div>
