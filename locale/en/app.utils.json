@@ -445,7 +445,12 @@
 
             "scanQrCode": "Scan QR Code",
 
-            "title": "Deposit {{assetName}}"
+            "title": "Deposit {{assetName}}",
+
+            "expiryWarningTitle": "WARNING:",
+
+            "expiryWarningText": "This address is only valid until: {span.error-500}[{{expiry}}]"
+
         },
 
         "dexScriptedPair": {
@@ -963,6 +968,8 @@
                 "feeExplanation": "We have detected a {{assetName}} address and will send your funds via a gateway to this address. The minimum amount is {{min, BigNumber}} {{assetTicker}}. The maximum amount is {{max, BigNumber}} {{assetTicker}}."
 
             },
+
+            "gatewayAddress": "Gateway Address",
 
             "gatewayTerms": {
 

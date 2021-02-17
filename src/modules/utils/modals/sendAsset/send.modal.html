@@ -26,6 +26,14 @@
                                     <ng-include src="::$ctrl.headerPath"></ng-include>
                                 </w-gateway-send>
 
+                                <w-robin-send ng-if="$ctrl.sendMode === 'robin'"
+                                                state="$ctrl.state"
+                                                on-sign="$ctrl.nextStep(signable)"
+                                                on-change-recipient="$ctrl.onChangeRecipient()"
+                                                update-gateway-data="$ctrl.updateGatewayData()">
+                                    <ng-include src="::$ctrl.headerPath"></ng-include>
+                                </w-robin-send>
+
 
                             </w-permit>
                             <w-permit name="CAN_TRANSFER_TRANSACTION" mode="off">
@@ -81,7 +89,7 @@
                 </w-step>
 
                 <w-step>
-                    <w-confirm-transaction ng-if="$ctrl.sendMode !== 'gateway'"
+                    <w-confirm-transaction ng-if="$ctrl.sendMode !== 'gateway' && $ctrl.sendMode !== 'robin'"
                                            on-click-back="$ctrl.back()"
                                            no-back-button="$ctrl.strict"
                                            on-tx-sent="$ctrl.onTxSent(id)"
@@ -90,7 +98,7 @@
                                            show-validation-errors="$ctrl.strict"
                                            signable="$ctrl.signable"></w-confirm-transaction>
 
-                    <w-confirm-gateway-transaction ng-if="$ctrl.sendMode === 'gateway'"
+                    <w-confirm-transaction ng-if="$ctrl.sendMode !== 'gateway' && $ctrl.sendMode !== 'robin'"
                                                    on-click-back="$ctrl.back()"
                                                    gateway-details="$ctrl.gatewayDetails"
                                                    target-recipient="$ctrl.state.singleSend.recipient"

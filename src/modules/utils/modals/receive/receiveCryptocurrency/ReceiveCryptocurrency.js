@@ -128,7 +128,7 @@
             /**
              * @public
              */
-            updateGatewayAddress() {
+            async updateGatewayAddress() {
                 this.gatewayServerError = false;
                 this.gatewayServerPending = true;
                 if (!this.asset) {
@@ -139,15 +139,8 @@
                 const depositDetails = gatewayService.getDepositDetails(this.asset, user.address);
 
                 if (depositDetails) {
-                    depositDetails.then((details) => {
-
-                        if (details.gatewayType === 'deposit') {
-                            gatewayService.getDepositAddress(this.asset, user.address).then(result => {
-                                this.gatewayAddress = result.address;
-                            });
-                        } else {
-                            this.gatewayAddress = details.address;
-                        }
+                    await depositDetails.then((details) => {
+                        this.gatewayAddress = details.address;
                         this.minAmount = Money.fromTokens(details.minimumAmount, this.asset);
                         this.maxAmount = Money.fromTokens(details.maximumAmount, this.asset);
                         this.disclaimerLink = details.disclaimerLink;
@@ -155,23 +148,37 @@
                         this.recoveryFee = Money.fromTokens(details.recoveryFee, this.asset);
                         this.supportEmail = details.supportEmail;
                         this.operator = details.operator;
-                        this.gatewayServerPending = false;
-                        this.totalFee = details.tn_total_fee;
+                        this.totalFee = details.gatewayFee;
                         this.walletAddress = details.walletAddress;
                         this.gatewayType = details.gatewayType;
                         this.gatewayUrl = details.gatewayUrl;
-                        $scope.$apply();
                     }, () => {
                         this.minAmount = Money.fromTokens(0.001, this.asset);
                         this.gatewayAddress = null;
                         this.gatewayServerError = true;
                         this.gatewayServerPending = false;
-                        $scope.$apply();
                     });
+
+                    if (this.gatewayType === 'deposit') {
+                        await gatewayService.getDepositAddress(this.asset, user.address).then(result => {
+                            this.gatewayAddress = result.address;
+                        });
+                    }
+
+                    if (this.gatewayType === 'round-robin') {
+                        await gatewayService.getRobinAddress(this.asset, user.address, true)
+                            .then(result => {
+                                this.gatewayAddress = result.address;
+                                this.gatewayExpiry = new Date(result.expiry);
+                            });
+                    }
 
                     this.assetKeyName = gatewayService.getAssetKeyName(this.asset, 'deposit');
                     this.isWEST = false;
                 }
+
+                this.gatewayServerPending = false;
+                $scope.$apply();
             }
 
         }
