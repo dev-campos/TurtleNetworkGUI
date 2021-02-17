@@ -55,7 +55,7 @@
                 WavesGatewayService._assertAsset(asset.id);
 
                 const OTHERNETWORK = `${WavesApp.network.wavesGateway[asset.id].otherNetwork}`;
-                const TICKER = `${WavesApp.network.wavesGateway[asset.id].ticker}`;
+                const TICKER = asset.ticker;
 
                 let src = OTHERNETWORK;
                 let dst = 'TurtleNetwork';
@@ -97,7 +97,7 @@
 
                 const ASSETGATEWAY = `${WavesApp.network.wavesGateway[asset.id].url}`;
                 const OTHERNETWORK = `${WavesApp.network.wavesGateway[asset.id].otherNetwork}`;
-                const TICKER = `${WavesApp.network.wavesGateway[asset.id].ticker}`;
+                const TICKER = asset.ticker;
                 const headers = {};
                 headers['Content-Type'] = 'application/json';
                 headers.Accept = 'application/json';
@@ -139,7 +139,7 @@
 
                 const ASSETGATEWAY = `${WavesApp.network.wavesGateway[asset.id].url}`;
                 const OTHERNETWORK = `${WavesApp.network.wavesGateway[asset.id].otherNetwork}`;
-                const TICKER = `${WavesApp.network.wavesGateway[asset.id].ticker}`;
+                const TICKER = asset.ticker;
                 const headers = {};
                 headers['Content-Type'] = 'application/json';
                 headers.Accept = 'application/json';
