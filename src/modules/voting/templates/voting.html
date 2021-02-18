@@ -4,7 +4,7 @@
         <div class="voting-page__content">
             <div class="order-row"
                  ng-repeat="poll in $ctrl.getPollsAsArray() track by $index">
-                <h1>{{poll.title}}</h1>
+                <w-voting-card poll-data="poll""></w-voting-card>
             </div>
         </div>
     </div>
