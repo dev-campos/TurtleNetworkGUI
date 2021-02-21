@@ -98,7 +98,7 @@
                                            show-validation-errors="$ctrl.strict"
                                            signable="$ctrl.signable"></w-confirm-transaction>
 
-                    <w-confirm-transaction ng-if="$ctrl.sendMode !== 'gateway' && $ctrl.sendMode !== 'robin'"
+                    <w-confirm-gateway-transaction ng-if="$ctrl.sendMode === 'gateway' || $ctrl.sendMode === 'robin'"
                                                    on-click-back="$ctrl.back()"
                                                    gateway-details="$ctrl.gatewayDetails"
                                                    target-recipient="$ctrl.state.singleSend.recipient"
