@@ -1,6 +1,7 @@
 {
     "pageTitle": "Voting",
     "button" : {
-        "vote" : "Vote Now"
+        "vote" : "Vote Now",
+        "votingClosed" : "Voting Closed"
     }
 }

@@ -15,28 +15,37 @@
           a 15.9155 15.9155 0 0 1 0 31.831
           a 15.9155 15.9155 0 0 1 0 -31.831"
                 />
-                <!--                <text x="18" y="20.35" class="percentage">Remaining</text>-->
             </svg>
+            <img ng-if="$ctrl.isClosed" class="closed-voting" src="/img/icons/check.svg"/>
         </div>
-        <div class="current-votes-chart">
-            <svg viewBox="0 0 100 10" class="bar-chart">
+        <div  class="current-votes-chart">
+            <svg ng-if="$ctrl.hasVotes" viewBox="0 0 100 10" class="bar-chart">
                 <g class='bars'>
-                    <rect fill='#3d5599' width='100' height='100%'></rect>;
+                    <rect fill='#3d5599' width='100' height='100%'></rect>
                     <rect fill='#cb4d3e' width='45' height='100%'></rect>
                 </g>
             </svg>
+            <span ng-if="!$ctrl.hasVotes" class="body-2">No votes</span>
         </div>
     </div>
     <p class="body-2">
         {{$ctrl.pollData.description}}
     </p>
     <div class="button_wrapper">
-        <w-sign-button ng-if="$ctrl.relativeElapsedTime < 1.0"
+        <w-sign-button ng-if="!$ctrl.isClosed"
                        class="submit long"
                        ng-click=""
                        on-success=""
                        on-click="">
             <span w-i18n-ns="app.voting" w-i18n="button.vote"></span>
+        </w-sign-button>
+        <w-sign-button ng-if="$ctrl.isClosed"
+                  disabled="true"
+                  class="long"
+                  ng-click=""
+                  on-success=""
+                  on-click="">
+            <span w-i18n-ns="app.voting" w-i18n="button.votingClosed"></span>
         </w-sign-button>
     </div>
 </div>

@@ -15,6 +15,8 @@
             pollData = {}
 
             relativeElapsedTime = 0.0
+            hasVotes = false
+            isClosed = true
 
             constructor() {
                 super($scope);
@@ -23,6 +25,12 @@
             async $onInit() {
                 const height = await waves.node.height();
                 this.relativeElapsedTime = Math.min(height / this.pollData.end, 1.0);
+                this.isClosed = this.relativeElapsedTime >= 1;
+                this.hasVotes = VotingCard._hasVotes(this.pollData);
+            }
+
+            static _hasVotes(polldata) {
+                return Object.keys(polldata.options).some(k => polldata.options[k].votes > 0);
             }
 
             getCurrentVotesAsNormalized() {

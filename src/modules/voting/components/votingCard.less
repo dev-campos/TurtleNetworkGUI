@@ -41,6 +41,17 @@
     align-items: center;
   }
 
+  .remaining-time-chart {
+
+    margin-right: @padding-main-layout / 2;
+
+    .closed-voting {
+      position: absolute;
+      height: 64px;
+      top: 0;
+      left: 0;
+    }
+  }
 
   .circular-chart {
     display: block;
@@ -74,9 +85,14 @@
     }
   }
 
+  .current-votes-chart {
 
-  .bar-chart {
-    height: 32px;
+    margin: 0 auto;
+
+    .bar-chart {
+      height: 32px;
+      width: 100%;
+    }
   }
 
 }
