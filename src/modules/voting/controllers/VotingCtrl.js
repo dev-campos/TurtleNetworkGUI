@@ -20,13 +20,21 @@
              *  The polling data coming from the oracle
              * @type {Object}
              */
-            pollData = {};
+            activePolls = {};
+            closedPolls = {};
 
             constructor() {
                 super($scope);
-                votingService.fetchPolls().then(data => {
-                    this.pollData = data;
-                });
+            }
+
+            async $onInit() {
+                const [height, polls] = await Promise.all([
+                    waves.node.height(),
+                    votingService.fetchPolls()
+                ]);
+                const pollArray = Object.keys(polls).map(k => polls[k]);
+                this.activePolls = pollArray.filter(p => p.end > height);
+                this.closedPolls = pollArray.filter(p => p.end <= height);
             }
 
             $onDestroy() {
@@ -34,6 +42,9 @@
             }
 
             getPollsAsArray() {
+            }
+
+            getClosedPollsAsArray() {
                 return Object.keys(this.pollData).map(k => this.pollData[k]);
             }
 

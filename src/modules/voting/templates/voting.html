@@ -1,11 +1,17 @@
 <div class="voting-page movable">
     <div w-i18n-ns="app.voting" class="voting-page__wrapper">
-<!--        <div class="voting-page__title basic-900 headline-2" w-i18n="pageTitle"></div>-->
         <div class="voting-page__content">
             <div class="voting-cards">
                 <div class="voting-cards__content">
                     <w-voting-card
-                            ng-repeat="poll in $ctrl.getPollsAsArray() track by $index"
+                            ng-repeat="poll in $ctrl.activePolls track by $index"
+                            poll-data="poll"
+                    >
+                    </w-voting-card>
+                </div>
+                <div class="voting-cards__content closed">
+                    <w-voting-card
+                            ng-repeat="poll in $ctrl.closedPolls track by $index"
                             poll-data="poll"
                     >
                     </w-voting-card>

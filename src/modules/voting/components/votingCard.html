@@ -2,7 +2,7 @@
     <div class="voting-card__title basic-900 headline-2">{{$ctrl.pollData.title}}</div>
     <hr/>
     <div class="voting-card__visuals">
-        <div class="remaining-time-chart relative">
+        <div class="remaining-time-chart relative" title="{{$ctrl.blocksLeft}} blocks left">
             <svg viewbox="0 0 36 36" class="circular-chart">
                 <path class="circle-bg"
                       d="M18 2.0845
@@ -18,34 +18,47 @@
             </svg>
             <img ng-if="$ctrl.isClosed" class="closed-voting" src="/img/icons/check.svg"/>
         </div>
-        <div  class="current-votes-chart">
-            <svg ng-if="$ctrl.hasVotes" viewBox="0 0 100 10" class="bar-chart">
+        <div class="current-votes-chart">
+            <svg ng-if="$ctrl.hasVotes" viewBox="0 0 1 0.1" class="bar-chart">
                 <g class='bars'>
-                    <rect fill='#3d5599' width='100' height='100%'></rect>
-                    <rect fill='#cb4d3e' width='45' height='100%'></rect>
+                    <g ng-repeat="vote in $ctrl.votes" class="option">
+                        <rect
+                                ng-attr-fill="{{vote.c}}"
+                                ng-attr-x="{{vote.x}}"
+                                ng-attr-width="{{vote.w}}"
+                                ng-attr-height='100%'>
+                            <title class="label">
+                                {{vote.l}}: {{vote.v}} Votes
+                            </title>
+                        </rect>
+                    </g>
                 </g>
             </svg>
+<!--            TODO: i18n-->
             <span ng-if="!$ctrl.hasVotes" class="body-2">No votes</span>
         </div>
     </div>
+</div>
+<div class="voting-text">
     <p class="body-2">
         {{$ctrl.pollData.description}}
     </p>
-    <div class="button_wrapper">
-        <w-sign-button ng-if="!$ctrl.isClosed"
-                       class="submit long"
-                       ng-click=""
-                       on-success=""
-                       on-click="">
-            <span w-i18n-ns="app.voting" w-i18n="button.vote"></span>
-        </w-sign-button>
-        <w-sign-button ng-if="$ctrl.isClosed"
-                  disabled="true"
-                  class="long"
-                  ng-click=""
-                  on-success=""
-                  on-click="">
-            <span w-i18n-ns="app.voting" w-i18n="button.votingClosed"></span>
-        </w-sign-button>
-    </div>
+</div>
+<div class="button_wrapper">
+    <w-sign-button ng-if="!$ctrl.isClosed"
+                   class="submit long"
+                   ng-click=""
+                   on-success=""
+                   on-click="">
+        <span w-i18n-ns="app.voting" w-i18n="button.vote"></span>
+    </w-sign-button>
+    <w-sign-button ng-if="$ctrl.isClosed"
+                   disabled="true"
+                   class="long"
+                   ng-click=""
+                   on-success=""
+                   on-click="">
+        <span w-i18n-ns="app.voting" w-i18n="button.votingClosed"></span>
+    </w-sign-button>
+</div>
 </div>
