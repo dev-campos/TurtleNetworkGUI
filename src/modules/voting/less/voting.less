@@ -14,6 +14,11 @@
 }
 
 .voting-page {
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
   .nameHelper {
     display: none;
 
@@ -44,9 +49,12 @@
 }
 
 .voting-cards {
+  display: block;
+
   &__content {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
 
     @media screen and (max-width: 560px) {
       flex-direction: column;
