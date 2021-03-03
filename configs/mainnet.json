@@ -59,7 +59,7 @@
       "regex": "^0x[0-9a-f]{40}$"
     },
     "9gTWnHstaAkhD7hEGBqNdgcAru5872d8Xf1QmoPrz5iz": {
-      "url": "https://arrrgw.mortysnode.nl",
+      "url": "https://tn-arrr.komodo.gateway.polarity.exchange/",
       "isThirdParty": true,
       "regex": "^zs1[a-zA-Z0-9]{75}$"
     },
