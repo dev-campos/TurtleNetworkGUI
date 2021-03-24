@@ -15,7 +15,6 @@
     "bqs5DvxtTTN3kPQV95q4vjKFSRBcXEsFPuZgvhYkZC5",
     "AVJc3uYu8HdjQEx4rroaq6v4Xv4L1etG1tQPeuqs38Sf",
     "7tC2ZukogadhvHUdKQyWJ2cbk6T1viTCFJMgevVeTY1Y",
-    "HBxBjymrCC8TuL8rwCLr2vakDEq4obqkMwYYPEZtTauA",
     "TN",
     "2R7raH74LuuiCbJbcv3Aa7g14WY1vYPUGushCUJFwW1f",
     "EzwaF58ssALcUCZ9FbyeD1GTSteoZAQZEDTqBAXHfq8y",
@@ -82,12 +81,6 @@
       "url": "https://ltcgw.turtlenetwork.eu",
       "isThirdParty": false,
       "regex": "^[LM3][a-km-zA-HJ-NP-Z1-9]{26,33}$"
-    },
-    "HBxBjymrCC8TuL8rwCLr2vakDEq4obqkMwYYPEZtTauA": {
-      "url": "https://sysgw.turtlenetwork.eu",
-      "isThirdParty": false,
-      "regex": "^(sys1|[13sS])[a-zA-HJ-NP-Z0-9]{25,40}$"
-
     },
     "6Mh41byVWPg8JVCfuwG5CAPCh9Q7gnuaAVxjDfVNDmcD": {
       "url": "https://ethgw.turtlenetwork.eu",
