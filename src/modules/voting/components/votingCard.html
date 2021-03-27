@@ -2,7 +2,7 @@
     <div class="voting-card__title basic-900 headline-2">{{$ctrl.pollData.title}}</div>
     <hr/>
     <div class="voting-card__visuals">
-<!--            TODO: i18n-->
+        <!--            TODO: i18n-->
         <div class="remaining-time-chart relative" title="{{$ctrl.blocksLeft}} blocks left">
             <svg viewbox="0 0 36 36" class="circular-chart">
                 <path class="circle-bg"
@@ -35,22 +35,16 @@
                     </g>
                 </g>
             </svg>
-<!--            TODO: i18n-->
+            <!--            TODO: i18n-->
             <span ng-if="!$ctrl.hasVotes" class="body-2">No votes</span>
         </div>
     </div>
 </div>
-<<<<<<< HEAD
 <div class="voting-text">
     <p class="body-2">
         {{$ctrl.pollData.description}}
     </p>
 </div>
-=======
-<p class="body-2">
-    {{$ctrl.pollData.description}}
-</p>
->>>>>>> d7b32ac6a41c28dc3cfe13587bab5bc44cadf94f
 <div class="button_wrapper">
     <w-sign-button ng-if="!$ctrl.isClosed"
                    class="submit long"
