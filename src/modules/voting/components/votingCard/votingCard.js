@@ -82,7 +82,7 @@
             pollData: '<',
             currentHeight: '<'
         },
-        templateUrl: 'modules/voting/components/votingCard.html',
+        templateUrl: 'modules/voting/components/votingCard/votingCard.html',
         controller
     });
 })();
