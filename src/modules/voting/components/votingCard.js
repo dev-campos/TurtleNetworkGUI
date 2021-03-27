@@ -19,6 +19,7 @@
             hasVotes = false
             isClosed = true
             isEligible = true
+            isLoading = true
             votes = []
 
             constructor() {
@@ -32,6 +33,8 @@
                 this.isClosed = this.relativeElapsedTime >= 1;
                 this.hasVotes = VotingCard._hasVotes(this.pollData);
                 this.votes = VotingCard._getCurrentVotesAsNormalized(this.pollData);
+                this.isLoading = false;
+                $scope.$apply();
             }
 
             static _hasVotes(polldata) {

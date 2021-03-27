@@ -4,6 +4,10 @@
     <div class="voting-card__visuals">
         <!--            TODO: i18n-->
         <div class="remaining-time-chart relative" title="{{$ctrl.blocksLeft}} blocks left">
+            <div class="loader-wrapper" ng-if="$ctrl.isLoading">
+                <w-loader class="loader"></w-loader>
+            </div>
+            <img ng-if="$ctrl.isClosed" class="closed-voting" src="/img/icons/check.svg"/>
             <svg viewbox="0 0 36 36" class="circular-chart">
                 <path class="circle-bg"
                       d="M18 2.0845
@@ -17,7 +21,6 @@
           a 15.9155 15.9155 0 0 1 0 -31.831"
                 />
             </svg>
-            <img ng-if="$ctrl.isClosed" class="closed-voting" src="/img/icons/check.svg"/>
         </div>
         <div class="current-votes-chart">
             <svg ng-if="$ctrl.hasVotes" viewBox="0 0 1 0.1" class="bar-chart">
