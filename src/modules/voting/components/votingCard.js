@@ -8,30 +8,33 @@
      * @param {$rootScope.Scope} $scope
      * @return {VotingCard}
      */
-    const controller = function (Base, $scope, waves) {
+    const controller = function (Base, $scope) {
 
         class VotingCard extends Base {
 
             pollData = {}
+            currentHeight = 0
 
             relativeElapsedTime = 0.0
             blocksLeft = 0
             hasVotes = false
             isClosed = true
             isEligible = true
+            isLoading = true
             votes = []
 
             constructor() {
                 super($scope);
             }
 
-            async $onInit() {
-                const height = await waves.node.height();
+            $onInit() {
+                const height = this.currentHeight;
                 this.relativeElapsedTime = Math.min(height / this.pollData.end, 1.0);
                 this.blocksLeft = Math.max(0, this.pollData.end - height);
                 this.isClosed = this.relativeElapsedTime >= 1;
                 this.hasVotes = VotingCard._hasVotes(this.pollData);
                 this.votes = VotingCard._getCurrentVotesAsNormalized(this.pollData);
+                this.isLoading = false;
             }
 
             static _hasVotes(polldata) {
@@ -72,11 +75,12 @@
         return new VotingCard();
     };
 
-    controller.$inject = ['Base', '$scope', 'waves'];
+    controller.$inject = ['Base', '$scope'];
 
     angular.module('app.voting').component('wVotingCard', {
         bindings: {
-            pollData: '<'
+            pollData: '<',
+            currentHeight: '<'
         },
         templateUrl: 'modules/voting/components/votingCard.html',
         controller

@@ -22,6 +22,7 @@
              */
             activePolls = {};
             closedPolls = {};
+            currentHeight = 0;
 
             constructor() {
                 super($scope);
@@ -33,6 +34,7 @@
                     votingService.fetchPolls()
                 ]);
                 const pollArray = Object.keys(polls).map(k => polls[k]);
+                this.currentHeight = height;
                 this.activePolls = pollArray.filter(p => p.end > height);
                 this.closedPolls = pollArray.filter(p => p.end <= height);
             }
