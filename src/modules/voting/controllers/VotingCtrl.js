@@ -49,7 +49,6 @@
 
             _updateBalance() {
                 this.balance = balanceWatcher.getBalance()[WAVES_ID];
-                $scope.$apply();
             }
 
         }

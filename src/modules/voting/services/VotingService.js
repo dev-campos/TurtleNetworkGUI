@@ -41,7 +41,7 @@
                 return true;
             }
 
-            async sendVote(pollData) {
+            async signVote({ pollId, voteId }) {
                 const txData = {
                     type: SIGN_TYPE.SCRIPT_INVOCATION,
                     version: 1,
@@ -54,11 +54,11 @@
                         args: [
                             {
                                 type: 'integer',
-                                value: pollData.id
+                                value: pollId
                             },
                             {
                                 type: 'integer',
-                                value: this.vote
+                                value: voteId
                             }
                         ]
                     }
