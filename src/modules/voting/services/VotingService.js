@@ -14,7 +14,7 @@
         VerifiedVoter: 'premium'
     };
 
-    const VotingDAppId = '';// WavesApp.dapps.voting;
+    const VotingDAppId = WavesApp.oracles.voting;
 
     /**
      * @return {VotingService}

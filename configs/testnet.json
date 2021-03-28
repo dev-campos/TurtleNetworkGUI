@@ -7,7 +7,8 @@
     "TN"
   ],
   "oracles": {
-    "waves": "3XrUtvRZ6LLU8F2wwkuDffwTuLUNcpnjthB"
+    "waves": "3XrUtvRZ6LLU8F2wwkuDffwTuLUNcpnjthB",
+    "voting": "3Xs2fU5anbFLY4KfPTWqa2AxkBkFJzdMw9c"
   },
   "apiVersion": "v0",
   "code": "l",
