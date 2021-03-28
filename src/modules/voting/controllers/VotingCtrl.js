@@ -38,18 +38,6 @@
                 this.activePolls = pollArray.filter(p => p.end > height);
                 this.closedPolls = pollArray.filter(p => p.end <= height);
             }
-
-            $onDestroy() {
-                super.$onDestroy();
-            }
-
-            getPollsAsArray() {
-            }
-
-            getClosedPollsAsArray() {
-                return Object.keys(this.pollData).map(k => this.pollData[k]);
-            }
-
         }
 
         return new VotingCtrl();

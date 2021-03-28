@@ -2,6 +2,7 @@
     'use strict';
 
     const ds = require('data-service');
+    const { SIGN_TYPE } = require('@turtlenetwork/signature-adapter');
 
     const PollDataKeys = {
         Balance: 'balance',
@@ -13,18 +14,48 @@
         VerifiedVoter: 'premium'
     };
 
+    const VotingDAppId = '';// WavesApp.dapps.voting;
+
     /**
-     * @param {Waves} waves
      * @return {VotingService}
      */
-    const factory = function (waves) {
+    const factory = function () {
 
         class VotingService {
 
             async fetchPolls() {
-                // TODO: get the field address from elsewhere
-                const pollData = await ds.api.data.getDataFields('3Xs2fU5anbFLY4KfPTWqa2AxkBkFJzdMw9c');
+                const pollData = await ds.api.data.getDataFields(VotingDAppId);
                 return this._parsePollData(pollData);
+            }
+
+            async sendVote(pollData) {
+                const txData = {
+                    type: SIGN_TYPE.SCRIPT_INVOCATION,
+                    version: 1,
+                    dApp: VotingDAppId,
+                    fee: 100000000,
+                    feeAssetId: null,
+                    payment: [],
+                    call: {
+                        function: 'vote',
+                        args: [
+                            {
+                                type: 'integer',
+                                value: pollData.id
+                            },
+                            {
+                                type: 'integer',
+                                value: this.vote
+                            }
+                        ]
+                    }
+                };
+
+                const [tx] = await ds.api.transactions.parseTx([txData]);
+                return ds.signature.getSignatureApi().makeSignable({
+                    type: txData.type,
+                    data: tx
+                });
             }
 
             _parsePollData(data) {
@@ -48,7 +79,10 @@
                         return;
                     }
 
-                    const poll = parsedPolls[token.pollId] || { options: {} };
+                    const poll = parsedPolls[token.pollId] || {
+                        id: parseInt(token.pollId, 10),
+                        options: {}
+                    };
 
                     if (token.key === PollDataKeys.Option) {
                         const optionId = token.appendix.replace('_', '');
@@ -83,7 +117,7 @@
         return new VotingService();
     };
 
-    factory.$inject = ['waves'];
+    factory.$inject = [];
 
     angular.module('app.voting').factory('votingService', factory);
 })();

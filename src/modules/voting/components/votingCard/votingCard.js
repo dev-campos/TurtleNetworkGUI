@@ -6,6 +6,7 @@
      *
      * @param {Base} Base
      * @param {$rootScope.Scope} $scope
+     * @param modalManager
      * @return {VotingCard}
      */
     const controller = function (Base, $scope, modalManager) {
@@ -19,7 +20,7 @@
             blocksLeft = 0
             hasVotes = false
             isClosed = true
-            isEligible = true
+            isEligible = true // TODO: verify eligibility status
             isLoading = true
             votes = []
             totalVotes = 0
@@ -42,10 +43,6 @@
             vote() {
                 modalManager.showVoteModal(this.pollData);
             }
-
-            // static _hasVotes(polldata) {
-            //     return Object.keys(polldata.options).some(k => polldata.options[k].votes > 0);
-            // }
 
             static _getCurrentVotesAsNormalized(pollData) {
 

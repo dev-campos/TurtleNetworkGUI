@@ -30,7 +30,7 @@
              */
             _listeners = [];
 
-            constructor({pollData}) {
+            constructor({ pollData }) {
                 super($scope);
                 /**
                  * @type {number}
@@ -38,7 +38,15 @@
                 this.step = 0;
                 this.pollData = pollData;
 
-                console.log('pollData', pollData)
+
+                // console.log('pollData', pollData)
+
+                /**
+                 * Vote, selected by user
+                 * @type {number}
+                 */
+                this.vote = null;
+
 
                 /**
                  * @type {'burn'|'reissue'}
@@ -71,7 +79,7 @@
                 /**
                  * @type {Money}
                  */
-                //this.quantity = new entities.Money(this.asset.quantity, this.asset);
+                // this.quantity = new entities.Money(this.asset.quantity, this.asset);
                 /**
                  * @type {Money}
                  * @private
@@ -79,7 +87,7 @@
                 this._waves = null;
 
 
-                this.description = '' //description || money.asset.description;
+                this.description = ''; // description || money.asset.description;
 
 
                 const type = SIGN_TYPE.SCRIPT_INVOCATION;
@@ -96,6 +104,8 @@
 
                 // this.observe(['input', 'issue'], this._createTx);
                 // this.observe(['_waves', 'fee'], this._changeHasFee);
+
+                this.observe(['vote'], this._createTx);
 
                 const signPendingListener = $scope.$on('signPendingChange', (event, data) => {
                     this.signPending = data;
@@ -140,41 +150,41 @@
             /**
              * @private
              */
-            _createTx() {
-                const input = this.input;
-                const type = this.txType === 'burn' ? SIGN_TYPE.BURN : SIGN_TYPE.REISSUE;
-                const quantityField = this.txType === 'burn' ? 'amount' : 'quantity';
-
-
-                if (input) {
-                    const tx = waves.node.transactions.createTransaction({
-                        type,
-                        assetId: input.asset.id,
-                        description: input.asset.description,
-                        fee: this.fee,
-                        [quantityField]: input,
-                        precision: input.asset.precision,
-                        reissuable: this.issue
-                    });
-                    this.signable = ds.signature.getSignatureApi().makeSignable({
-                        type,
-                        data: tx
-                    });
-                } else {
-                    this.tx = null;
+            async _createTx() {
+                if (!this.vote) {
                     this.signable = null;
+                    return;
                 }
-            }
 
-            /**
-             * @return {Promise<{values: {rate: number, timestamp: Date}[]}>}
-             * @private
-             */
-            // _getGraphData() {
-            //     const startDate = utils.moment().add().day(-100);
-            //     return waves.utils.getRateHistory(this.asset.id, user.getSetting('baseAssetId'), startDate)
-            //         .then((values) => ({ values }));
-            // }
+                const txData = {
+                    type: SIGN_TYPE.SCRIPT_INVOCATION,
+                    version: 1,
+                    // TODO: make configurable
+                    dApp: '3Xs2fU5anbFLY4KfPTWqa2AxkBkFJzdMw9c',
+                    fee: 100000000,
+                    feeAssetId: null,
+                    payment: [],
+                    call: {
+                        function: 'vote',
+                        args: [
+                            {
+                                type: 'integer',
+                                value: this.pollData.id
+                            },
+                            {
+                                type: 'integer',
+                                value: this.vote
+                            }
+                        ]
+                    }
+                };
+
+                const [tx] = await ds.api.transactions.parseTx([txData]);
+                this.signable = ds.signature.getSignatureApi().makeSignable({
+                    type: txData.type,
+                    data: tx
+                });
+            }
 
         }
 

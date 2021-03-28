@@ -12,13 +12,13 @@
             <div class="body-2 margin-bottom-2">{{::$ctrl.pollData.description}}</div>
 
             <fieldset ng-disabled="$ctrl.signPending" ng-class="{ 'disabled': $ctrl.signPending }">
-                <form name="vote">
+                <form name="voteForm">
                     <w-input-container class="margin-2">
                         <div class="controls margin-1">
-                            <w-radio-wrap class="options" ng-model="$ctrl.vote">
+                            <w-radio-wrap class="options" ng-model="$ctrl.vote" required>
                                 <w-radio class="radio radio_base"
                                          ng-repeat="option in $ctrl.pollData.options track by $index"
-                                         value="$index">
+                                         value="$index+1">
                                     <span class="radio__content">{{option.label}}</span>
                                 </w-radio>
                             </w-radio-wrap>
@@ -26,7 +26,7 @@
                     </w-input-container>
                 </form>
             </fieldset>
-            <w-sign-button disabled="vote.$invalid || $ctrl.noFee"
+            <w-sign-button disabled="voteForm.$invalid"
                            on-click="$ctrl.getSignable()"
                            on-success="$ctrl.next()">
                 <span w-i18n="button.continue"></span>
