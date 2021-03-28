@@ -7,6 +7,7 @@
                             ng-repeat="poll in $ctrl.activePolls track by $index"
                             poll-data="poll"
                             current-height="$ctrl.currentHeight"
+                            balance="$ctrl.balance"
                     >
                     </w-voting-card>
                 </div>
@@ -16,6 +17,7 @@
                             ng-repeat="poll in $ctrl.closedPolls track by $index"
                             poll-data="poll"
                             current-height="$ctrl.currentHeight"
+                            balance="$ctrl.balance"
                     >
                     </w-voting-card>
                 </div>

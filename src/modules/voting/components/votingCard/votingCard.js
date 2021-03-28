@@ -2,26 +2,19 @@
 (function () {
     'use strict';
 
-    /**
-     *
-     * @param {Base} Base
-     * @param {$rootScope.Scope} $scope
-     * @param modalManager
-     * @return {VotingCard}
-     */
-    const controller = function (Base, $scope, modalManager) {
+    const controller = function (Base, $scope, modalManager, votingService) {
 
         class VotingCard extends Base {
 
             pollData = {}
             currentHeight = 0
+            balance = 0
 
             relativeElapsedTime = 0.0
             blocksLeft = 0
             hasVotes = false
             isClosed = true
-            isEligible = true // TODO: verify eligibility status
-            isLoading = true
+            isEligible = true
             votes = []
             totalVotes = 0
 
@@ -29,7 +22,7 @@
                 super($scope);
             }
 
-            $onInit() {
+            $onChanges() {
                 const height = this.currentHeight;
                 this.relativeElapsedTime = Math.min(height / this.pollData.end, 1.0);
                 this.blocksLeft = Math.max(0, this.pollData.end - height);
@@ -37,7 +30,8 @@
                 this.votes = VotingCard._getCurrentVotesAsNormalized(this.pollData);
                 this.totalVotes = this.votes.reduce((acc, { v }) => acc + v, 0);
                 this.hasVotes = this.totalVotes > 0;
-                this.isLoading = false;
+                // TODO: eligibility not implemented yet
+                this.isEligible = votingService.isEligible();
             }
 
             vote() {
@@ -78,12 +72,14 @@
         return new VotingCard();
     };
 
-    controller.$inject = ['Base', '$scope', 'modalManager'];
+    controller.$inject = ['Base', '$scope', 'modalManager', 'votingService'];
 
     angular.module('app.voting').component('wVotingCard', {
         bindings: {
             pollData: '<',
-            currentHeight: '<'
+            currentHeight: '<',
+            accountId: '<',
+            balance: '<'
         },
         templateUrl: 'modules/voting/components/votingCard/votingCard.html',
         controller

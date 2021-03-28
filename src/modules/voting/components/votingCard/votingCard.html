@@ -1,12 +1,9 @@
 <div w-i18n-ns="app.voting">
-    <div class="voting-card__title basic-900 headline-2">{{$ctrl.pollData.title}}</div>
+    <div class="voting-card__title basic-900 headline-2">{{::$ctrl.pollData.title}}</div>
     <hr/>
     <div class="voting-card__visuals">
         <!--            TODO: i18n-->
         <div class="remaining-time-chart relative" title="{{$ctrl.blocksLeft}} blocks left">
-            <div class="loader-wrapper" ng-if="$ctrl.isLoading">
-                <w-loader class="loader"></w-loader>
-            </div>
             <img ng-if="$ctrl.isClosed" class="closed-voting" src="/img/icons/check.svg"/>
             <svg viewbox="0 0 36 36" class="circular-chart">
                 <path class="circle-bg"
@@ -50,7 +47,7 @@
 </div>
 <div class="voting-text">
     <p class="body-2">
-        {{$ctrl.pollData.description}}
+        {{::$ctrl.pollData.description}}
     </p>
 </div>
 <div class="button_wrapper">

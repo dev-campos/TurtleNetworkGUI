@@ -1,18 +1,17 @@
 (function () {
     'use strict';
 
-    /**
-     * @param {typeof Base} Base
-     * @param {$rootScope.Scope} $scope
-     * @param {Waves} waves
-     * @param {VotingService} votingService
-     */
+
     const controller = function (
         Base,
         $scope,
         waves,
         votingService,
+        balanceWatcher,
+        createPoll
     ) {
+
+        const { WAVES_ID } = require('@turtlenetwork/signature-adapter');
 
         class VotingCtrl extends Base {
 
@@ -23,12 +22,20 @@
             activePolls = {};
             closedPolls = {};
             currentHeight = 0;
+            balance = 0;
 
             constructor() {
                 super($scope);
             }
 
-            async $onInit() {
+            $onInit() {
+                this._updatePolls();
+                this._updateBalance();
+                this.receive(balanceWatcher.change, this._updateBalance, this);
+                createPoll(this, this._updatePolls, () => null, 10 * 1000);
+            }
+
+            async _updatePolls() {
                 const [height, polls] = await Promise.all([
                     waves.node.height(),
                     votingService.fetchPolls()
@@ -37,7 +44,14 @@
                 this.currentHeight = height;
                 this.activePolls = pollArray.filter(p => p.end > height);
                 this.closedPolls = pollArray.filter(p => p.end <= height);
+                $scope.$apply();
             }
+
+            _updateBalance() {
+                this.balance = balanceWatcher.getBalance()[WAVES_ID];
+                $scope.$apply();
+            }
+
         }
 
         return new VotingCtrl();
@@ -47,7 +61,9 @@
         'Base',
         '$scope',
         'waves',
-        'votingService'
+        'votingService',
+        'balanceWatcher',
+        'createPoll'
     ];
 
     angular.module('app.voting')

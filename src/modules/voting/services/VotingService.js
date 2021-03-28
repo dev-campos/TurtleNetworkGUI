@@ -28,6 +28,19 @@
                 return this._parsePollData(pollData);
             }
 
+            /**
+             * Checks whether an account is elegible or not
+             * @param accountId an user account
+             * @param balance The accounts balance
+             * @param pollData The data obtained by fetchPolls
+             * @return {boolean}
+             */
+            // eslint-disable-next-line no-unused-vars
+            isEligible({ accountId, balance, pollData }) {
+                // TODO: check eligibility
+                return true;
+            }
+
             async sendVote(pollData) {
                 const txData = {
                     type: SIGN_TYPE.SCRIPT_INVOCATION,
