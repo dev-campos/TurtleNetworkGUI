@@ -1,7 +1,12 @@
 {
     "pageTitle": "Voting",
+    "totalVotes": "{{totalVotes}} vote(s)",
+    "noVotes": "No votes",
     "button" : {
         "vote" : "Vote Now",
         "votingClosed" : "Voting Closed"
+    },
+    "modal" : {
+        "title" : "Vote"
     }
 }

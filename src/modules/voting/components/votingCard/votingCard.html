@@ -23,23 +23,28 @@
             </svg>
         </div>
         <div class="current-votes-chart">
-            <svg ng-if="$ctrl.hasVotes" viewBox="0 0 1 0.1" class="bar-chart">
-                <g class='bars'>
-                    <g ng-repeat="vote in $ctrl.votes" class="option">
-                        <rect
-                                ng-attr-fill="{{vote.c}}"
-                                ng-attr-x="{{vote.x}}"
-                                ng-attr-width="{{vote.w}}"
-                                ng-attr-height='100%'>
-                            <title class="label">
-                                {{vote.l}}: {{vote.v}} Votes
-                            </title>
-                        </rect>
+            <div ng-if="$ctrl.hasVotes">
+                <span class="total-votes"
+                      w-i18n="totalVotes"
+                      params="{totalVotes: $ctrl.totalVotes}">
+                </span>
+                <svg viewBox="0 0 1 0.1" class="bar-chart">
+                    <g class='bars'>
+                        <g ng-repeat="vote in $ctrl.votes" class="option">
+                            <rect
+                                    ng-attr-fill="{{vote.c}}"
+                                    ng-attr-x="{{vote.x}}"
+                                    ng-attr-width="{{vote.w}}"
+                                    ng-attr-height='100%'>
+                                <title class="label">
+                                    {{vote.l}}: {{vote.v}} Votes
+                                </title>
+                            </rect>
+                        </g>
                     </g>
-                </g>
-            </svg>
-            <!--            TODO: i18n-->
-            <span ng-if="!$ctrl.hasVotes" class="body-2">No votes</span>
+                </svg>
+            </div>
+            <span ng-if="!$ctrl.hasVotes" class="body-2"  w-i18n="noVotes"></span>
         </div>
     </div>
 </div>
@@ -49,20 +54,19 @@
     </p>
 </div>
 <div class="button_wrapper">
-    <w-sign-button ng-if="!$ctrl.isClosed"
-                   class="submit long"
-                   ng-click=""
-                   on-success=""
-                   on-click="">
+    <w-button class="submit big long"
+              ng-if="!$ctrl.isClosed"
+              on-click="$ctrl.vote()"
+    >
         <span w-i18n-ns="app.voting" w-i18n="button.vote"></span>
-    </w-sign-button>
-    <w-sign-button ng-if="$ctrl.isClosed"
-                   disabled="true"
-                   class="long"
-                   ng-click=""
-                   on-success=""
-                   on-click="">
+    </w-button>
+
+    <w-button class="submit big long"
+              disabled="true"
+              ng-if="$ctrl.isClosed"
+              on-click=""
+    >
         <span w-i18n-ns="app.voting" w-i18n="button.votingClosed"></span>
-    </w-sign-button>
+    </w-button>
 </div>
 </div>

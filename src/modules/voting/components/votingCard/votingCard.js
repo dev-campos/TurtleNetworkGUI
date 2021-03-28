@@ -8,7 +8,7 @@
      * @param {$rootScope.Scope} $scope
      * @return {VotingCard}
      */
-    const controller = function (Base, $scope) {
+    const controller = function (Base, $scope, modalManager) {
 
         class VotingCard extends Base {
 
@@ -22,6 +22,7 @@
             isEligible = true
             isLoading = true
             votes = []
+            totalVotes = 0
 
             constructor() {
                 super($scope);
@@ -32,14 +33,19 @@
                 this.relativeElapsedTime = Math.min(height / this.pollData.end, 1.0);
                 this.blocksLeft = Math.max(0, this.pollData.end - height);
                 this.isClosed = this.relativeElapsedTime >= 1;
-                this.hasVotes = VotingCard._hasVotes(this.pollData);
                 this.votes = VotingCard._getCurrentVotesAsNormalized(this.pollData);
+                this.totalVotes = this.votes.reduce((acc, { v }) => acc + v, 0);
+                this.hasVotes = this.totalVotes > 0;
                 this.isLoading = false;
             }
 
-            static _hasVotes(polldata) {
-                return Object.keys(polldata.options).some(k => polldata.options[k].votes > 0);
+            vote() {
+                modalManager.showVoteModal(this.pollData);
             }
+
+            // static _hasVotes(polldata) {
+            //     return Object.keys(polldata.options).some(k => polldata.options[k].votes > 0);
+            // }
 
             static _getCurrentVotesAsNormalized(pollData) {
 
@@ -75,7 +81,7 @@
         return new VotingCard();
     };
 
-    controller.$inject = ['Base', '$scope'];
+    controller.$inject = ['Base', '$scope', 'modalManager'];
 
     angular.module('app.voting').component('wVotingCard', {
         bindings: {
