@@ -2,13 +2,22 @@
 (function () {
     'use strict';
 
-    const controller = function (Base, $scope, modalManager, votingService) {
+    const { WAVES_ID } = require('@turtlenetwork/signature-adapter');
+
+
+    const VotingStatus = {
+        Available: 'available',
+        NotEligible: 'not_eligible',
+        HasVoted: 'has_voted',
+        IsClosed: 'is_closed'
+    };
+
+    const controller = function (Base, $scope, modalManager, votingService, user, balanceWatcher) {
 
         class VotingCard extends Base {
 
             pollData = {}
             currentHeight = 0
-            balance = 0
 
             relativeElapsedTime = 0.0
             blocksLeft = 0
@@ -17,25 +26,75 @@
             isEligible = true
             votes = []
             totalVotes = 0
+            userVotedLabel = ''
+            votingStatus = VotingStatus.NotEligible
+
 
             constructor() {
                 super($scope);
             }
 
+            $onInit() {
+                user.loginSignal.on(this._updateVotingStatus, this);
+                this.receive(balanceWatcher.change, this._updateVotingStatus, this);
+
+            }
+
             $onChanges() {
+                console.log('pollData', this.pollData);
                 const height = this.currentHeight;
                 this.relativeElapsedTime = Math.min(height / this.pollData.end, 1.0);
                 this.blocksLeft = Math.max(0, this.pollData.end - height);
-                this.isClosed = this.relativeElapsedTime >= 1;
+
                 this.votes = VotingCard._getCurrentVotesAsNormalized(this.pollData);
                 this.totalVotes = this.votes.reduce((acc, { v }) => acc + v, 0);
                 this.hasVotes = this.totalVotes > 0;
-                // TODO: eligibility not implemented yet
-                this.isEligible = votingService.isEligible();
+                const votedOptionForPoll = votingService.getVotedOptionForPoll({
+                    pollData: this.pollData,
+                    userAddress: user.address
+                });
+                this.userVotedLabel = votedOptionForPoll && this.pollData.options[votedOptionForPoll].label;
+                this._updateVotingStatus();
+
             }
 
             vote() {
                 modalManager.showVoteModal(this.pollData);
+            }
+
+
+            isVotingEnabled() {
+                return this.votingStatus === VotingStatus.Available ||
+                    this.votingStatus === VotingStatus.HasVoted;
+            }
+
+            _updateVotingStatus() {
+                let status = VotingStatus.Available;
+
+                if (this._isClosed()) {
+                    status = VotingStatus.IsClosed;
+                } else if (!this._isEligible()) {
+                    status = VotingStatus.NotEligible;
+                } else if (this._hasVoted()) {
+                    status = VotingStatus.HasVoted;
+                }
+
+                this.votingStatus = status;
+            }
+
+            _isClosed() {
+                return this.relativeElapsedTime >= 1;
+            }
+
+            _isEligible() {
+                return votingService.isEligibleForPoll({
+                    pollData: this.pollData,
+                    balance: balanceWatcher.getBalance()[WAVES_ID]
+                });
+            }
+
+            _hasVoted() {
+                return !!this.userVotedLabel;
             }
 
             static _getCurrentVotesAsNormalized(pollData) {
@@ -52,15 +111,16 @@
 
                 const { options } = pollData;
                 const mappedOptions = Object.keys(options).map(k => options[k]);
-                const totalVotes = mappedOptions.reduce((acc, o) => acc + o.votes, 0);
+                const totalVotes = mappedOptions.reduce((acc, o) => acc + o.votes.length, 0);
                 return mappedOptions.reduce((acc, opt, i) => {
                     const prev = acc[i - 1];
+                    const voteCount = opt.votes.length;
                     acc.push({
                         c: Colors[i % (Colors.length - 1)],
                         l: opt.label,
                         x: prev ? prev.x + prev.w : 0,
-                        w: opt.votes / totalVotes,
-                        v: opt.votes
+                        w: voteCount / totalVotes,
+                        v: voteCount
                     });
                     return acc;
                 }, []);
@@ -72,7 +132,7 @@
         return new VotingCard();
     };
 
-    controller.$inject = ['Base', '$scope', 'modalManager', 'votingService'];
+    controller.$inject = ['Base', '$scope', 'modalManager', 'votingService', 'user', 'balanceWatcher'];
 
     angular.module('app.voting').component('wVotingCard', {
         bindings: {

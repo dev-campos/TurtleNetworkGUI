@@ -1,9 +1,12 @@
 {
     "pageTitle": "Voting",
     "totalVotes": "{{totalVotes}} vote(s)",
+    "userVoted": "You voted in '{{votedLabel}}'",
     "noVotes": "No votes",
     "button" : {
+        "notEligible": "Not Eligible",
         "vote" : "Vote Now",
+        "changeVote" : "Change Vote",
         "votingClosed" : "Voting Closed"
     },
     "modal" : {

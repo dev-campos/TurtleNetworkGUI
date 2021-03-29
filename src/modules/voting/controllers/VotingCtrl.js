@@ -30,8 +30,6 @@
 
             $onInit() {
                 this._updatePolls();
-                this._updateBalance();
-                this.receive(balanceWatcher.change, this._updateBalance, this);
                 createPoll(this, this._updatePolls, () => null, 10 * 1000);
             }
 
@@ -44,7 +42,7 @@
                 this.currentHeight = height;
                 this.activePolls = pollArray.filter(p => p.end > height);
                 this.closedPolls = pollArray.filter(p => p.end <= height);
-                $scope.$apply();
+                $scope.$digest();
             }
 
             _updateBalance() {

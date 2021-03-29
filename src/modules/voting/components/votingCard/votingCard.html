@@ -4,7 +4,7 @@
     <div class="voting-card__visuals">
         <!--            TODO: i18n-->
         <div class="remaining-time-chart relative" title="{{$ctrl.blocksLeft}} blocks left">
-            <img ng-if="$ctrl.isClosed" class="closed-voting" src="/img/icons/check.svg"/>
+            <img ng-if="$ctrl._isClosed()" class="closed-voting" src="/img/icons/check.svg"/>
             <svg viewbox="0 0 36 36" class="circular-chart">
                 <path class="circle-bg"
                       d="M18 2.0845
@@ -25,6 +25,13 @@
                       w-i18n="totalVotes"
                       params="{totalVotes: $ctrl.totalVotes}">
                 </span>
+                <div class="user-voted-option" ng-if="$ctrl.userVotedLabel">
+                    <img class="user-voted-option__icon" src="/img/icons/check.svg"/>
+                    <span class="user-voted-option__text caption-3"
+                          w-i18n="userVoted"
+                          params="{votedLabel: $ctrl.userVotedLabel}">
+                    </span>
+                </div>
                 <svg viewBox="0 0 1 0.1" class="bar-chart">
                     <g class='bars'>
                         <g ng-repeat="vote in $ctrl.votes" class="option">
@@ -41,7 +48,7 @@
                     </g>
                 </svg>
             </div>
-            <span ng-if="!$ctrl.hasVotes" class="body-2"  w-i18n="noVotes"></span>
+            <span ng-if="!$ctrl.hasVotes" class="body-2" w-i18n="noVotes"></span>
         </div>
     </div>
 </div>
@@ -50,20 +57,22 @@
         {{::$ctrl.pollData.description}}
     </p>
 </div>
-<div class="button_wrapper">
+<div class="button_wrapper" w-i18n-ns="app.voting">
     <w-button class="submit big long"
-              ng-if="!$ctrl.isClosed"
+              ng-if="$ctrl.isVotingEnabled()"
               on-click="$ctrl.vote()"
     >
-        <span w-i18n-ns="app.voting" w-i18n="button.vote"></span>
+        <span ng-if="$ctrl.votingStatus === 'available'"  w-i18n="button.vote"></span>
+        <span ng-if="$ctrl.votingStatus === 'has_voted'" w-i18n="button.changeVote"></span>
     </w-button>
 
     <w-button class="submit big long"
               disabled="true"
-              ng-if="$ctrl.isClosed"
+              ng-if="!$ctrl.isVotingEnabled()"
               on-click=""
     >
-        <span w-i18n-ns="app.voting" w-i18n="button.votingClosed"></span>
+        <span ng-if="$ctrl.votingStatus === 'is_closed'" w-i18n="button.votingClosed"></span>
+        <span ng-if="$ctrl.votingStatus === 'not_eligible'" w-i18n="button.notEligible"></span>
     </w-button>
 </div>
 </div>

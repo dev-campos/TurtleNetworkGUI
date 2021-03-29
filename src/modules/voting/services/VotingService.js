@@ -3,6 +3,7 @@
 
     const ds = require('data-service');
     const { SIGN_TYPE } = require('@turtlenetwork/signature-adapter');
+    const { Money } = require('@waves/data-entities');
 
     const PollDataKeys = {
         Balance: 'balance',
@@ -29,16 +30,26 @@
             }
 
             /**
-             * Checks whether an account is elegible or not
-             * @param accountId an user account
-             * @param balance The accounts balance
+             * Checks whether an user is eligible for a poll or not
+             * @param {Money} balance The accounts balance
              * @param pollData The data obtained by fetchPolls
              * @return {boolean}
              */
-            // eslint-disable-next-line no-unused-vars
-            isEligible({ accountId, balance, pollData }) {
-                // TODO: check eligibility
-                return true;
+            isEligibleForPoll({ balance, pollData }) {
+                const pollBalance = new Money.fromCoins(pollData.balance, ds.api.assets.wavesAsset);
+                return balance.gte(pollBalance);
+            }
+
+            /**
+             * Gets voted option
+             * @param userAddress
+             * @param pollData
+             * @return {object|null} voted option, or null, if has not voted
+             */
+            getVotedOptionForPoll({ userAddress, pollData }) {
+                const filtered = Object.keys(pollData.options)
+                    .filter(k => pollData.options[k].votes.includes(userAddress));
+                return filtered.length > 0 ? filtered[0] : null;
             }
 
             async signVote({ pollId, voteId }) {
@@ -101,7 +112,7 @@
                         const optionId = token.appendix.replace('_', '');
                         parsedPolls[token.pollId].options[optionId] = {
                             label: entry.value,
-                            votes: 0
+                            votes: []
                         };
                     } else {
                         parsedPolls[token.pollId] = {
@@ -117,9 +128,10 @@
                     if (token.key) {
                         return;
                     }
-                    const underscoreIndex = token.appendix.lastIndexOf('_');
-                    const pollId = token.appendix.substring(underscoreIndex + 1);
-                    parsedPolls[pollId].options[entry.value].votes++;
+                    const [accountId, pollId] = token.appendix.split('_');
+                    // const underscoreIndex = token.appendix.lastIndexOf('_');
+                    // const pollId = token.appendix.substring(underscoreIndex + 1);
+                    parsedPolls[pollId].options[entry.value].votes.push(accountId);
                 });
 
                 return parsedPolls;
