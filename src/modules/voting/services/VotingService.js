@@ -95,6 +95,7 @@
                     };
                 };
 
+                // premium feature is globally, and not per poll
                 let isPremiumUser = false;
 
                 data.forEach(entry => {

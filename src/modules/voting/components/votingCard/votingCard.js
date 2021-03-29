@@ -39,11 +39,9 @@
             }
 
             $onChanges() {
-                console.log('pollData', this.pollData);
                 const height = this.currentHeight;
                 this.relativeElapsedTime = Math.min(height / this.pollData.end, 1.0);
                 this.blocksLeft = Math.max(0, this.pollData.end - height);
-
                 this.votes = VotingCard._getCurrentVotesAsNormalized(this.pollData);
                 this.totalVotes = this.votes.reduce((acc, { v }) => acc + v, 0);
                 this.hasVotes = this.totalVotes > 0;
