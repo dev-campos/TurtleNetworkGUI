@@ -7,7 +7,7 @@
         "notEligible": "Not Eligible",
         "vote" : "Vote Now",
         "changeVote" : "Change Vote",
-        "votingClosed" : "Voting Closed"
+        "pollClosed" : "Poll Closed"
     },
     "modal" : {
         "title" : "Vote"

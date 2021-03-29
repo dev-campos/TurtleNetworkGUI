@@ -22,6 +22,20 @@
     width: @card-block-full;
   }
 
+  &__title {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.25rem;
+
+    .premium-icon {
+      width: 24px;
+      height: 24px;
+    }
+
+  }
+
   hr {
     border: none;
     width: 100%;
@@ -55,6 +69,7 @@
     flex-direction: row;
     align-items: center;
     top: 32px;
+
     &__icon {
       width: 14px;
       height: 14px;
@@ -66,7 +81,7 @@
 
     margin-right: @padding-main-layout / 2;
 
-    .closed-voting {
+    .closed-voting-icon {
       position: absolute;
       height: 64px;
       top: 0;

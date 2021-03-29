@@ -35,9 +35,7 @@
             }
 
             $onInit() {
-                user.loginSignal.on(this._updateVotingStatus, this);
                 this.receive(balanceWatcher.change, this._updateVotingStatus, this);
-
             }
 
             $onChanges() {
@@ -66,6 +64,10 @@
             isVotingEnabled() {
                 return this.votingStatus === VotingStatus.Available ||
                     this.votingStatus === VotingStatus.HasVoted;
+            }
+
+            isForPremiumUsers() {
+                return !this.pollData.anonymous_vote;
             }
 
             _updateVotingStatus() {

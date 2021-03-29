@@ -24,9 +24,9 @@
 
         class VotingService {
 
-            async fetchPolls() {
-                const pollData = await ds.api.data.getDataFields(VotingDAppId);
-                return this._parsePollData(pollData);
+            async fetchPolls({ userAddress }) {
+                const data = await ds.api.data.getDataFields(VotingDAppId);
+                return this._parsePollData({ data, userAddress });
             }
 
             /**
@@ -37,7 +37,7 @@
              */
             isEligibleForPoll({ balance, pollData }) {
                 const pollBalance = new Money.fromCoins(pollData.balance, ds.api.assets.wavesAsset);
-                return balance.gte(pollBalance);
+                return balance.gte(pollBalance) && (pollData.anonymous_vote || pollData.isPremiumUser);
             }
 
             /**
@@ -82,7 +82,7 @@
                 });
             }
 
-            _parsePollData(data) {
+            _parsePollData({ data, userAddress }) {
                 const parsedPolls = {};
 
                 const tokenizeKey = str => {
@@ -90,32 +90,40 @@
                     const indexEnd = str.indexOf('>');
                     return {
                         key: str.substring(0, indexStart - 1),
-                        pollId: str.substring(indexStart + 1, indexEnd),
+                        ref: str.substring(indexStart + 1, indexEnd),
                         appendix: str.substr(indexEnd + 1)
                     };
                 };
 
-                // get poll descriptor
+                let isPremiumUser = false;
+
                 data.forEach(entry => {
                     const token = tokenizeKey(entry.key);
 
-                    if (!token.key || token.key === PollDataKeys.VerifiedVoter) {
+                    if (!token.key) {
                         return;
                     }
 
-                    const poll = parsedPolls[token.pollId] || {
-                        id: parseInt(token.pollId, 10),
-                        options: {}
+                    if (token.key === PollDataKeys.VerifiedVoter) {
+                        isPremiumUser = isPremiumUser || token.ref === userAddress;
+                        return;
+                    }
+
+                    const pollId = token.ref;
+                    const poll = parsedPolls[pollId] || {
+                        id: parseInt(pollId, 10),
+                        options: {},
+                        isPremiumUser
                     };
 
                     if (token.key === PollDataKeys.Option) {
                         const optionId = token.appendix.replace('_', '');
-                        parsedPolls[token.pollId].options[optionId] = {
+                        parsedPolls[pollId].options[optionId] = {
                             label: entry.value,
                             votes: []
                         };
                     } else {
-                        parsedPolls[token.pollId] = {
+                        parsedPolls[pollId] = {
                             ...poll,
                             [token.key]: entry.value
                         };
@@ -129,8 +137,6 @@
                         return;
                     }
                     const [accountId, pollId] = token.appendix.split('_');
-                    // const underscoreIndex = token.appendix.lastIndexOf('_');
-                    // const pollId = token.appendix.substring(underscoreIndex + 1);
                     parsedPolls[pollId].options[entry.value].votes.push(accountId);
                 });
 

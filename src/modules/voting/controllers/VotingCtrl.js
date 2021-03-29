@@ -8,7 +8,8 @@
         waves,
         votingService,
         balanceWatcher,
-        createPoll
+        createPoll,
+        user
     ) {
 
         const { WAVES_ID } = require('@turtlenetwork/signature-adapter');
@@ -29,14 +30,15 @@
             }
 
             $onInit() {
-                this._updatePolls();
+                user.loginSignal.on(this._updatePolls, this);
                 createPoll(this, this._updatePolls, () => null, 10 * 1000);
             }
 
             async _updatePolls() {
+                const userAddress = user.address;
                 const [height, polls] = await Promise.all([
                     waves.node.height(),
-                    votingService.fetchPolls()
+                    votingService.fetchPolls({ userAddress })
                 ]);
                 const pollArray = Object.keys(polls).map(k => polls[k]);
                 this.currentHeight = height;
@@ -60,7 +62,8 @@
         'waves',
         'votingService',
         'balanceWatcher',
-        'createPoll'
+        'createPoll',
+        'user'
     ];
 
     angular.module('app.voting')
