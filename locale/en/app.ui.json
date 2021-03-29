@@ -74,7 +74,9 @@
 
             "sponsorship-start": "Sponsorship has been set",
 
-            "sponsorship-stop": "Sponsorship has been disabled"
+            "sponsorship-stop": "Sponsorship has been disabled",
+
+            "script-invocation": "You have invoked a script method"
 
         },
 
