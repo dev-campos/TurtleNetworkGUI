@@ -1,18 +1,18 @@
 (function () {
     'use strict';
 
-    /**
-     * @param {typeof Base} Base
-     * @param {$rootScope.Scope} $scope
-     * @param {Waves} waves
-     * @param {VotingService} votingService
-     */
+
     const controller = function (
         Base,
         $scope,
         waves,
         votingService,
+        balanceWatcher,
+        createPoll,
+        user
     ) {
+
+        const { WAVES_ID } = require('@turtlenetwork/signature-adapter');
 
         class VotingCtrl extends Base {
 
@@ -20,21 +20,35 @@
              *  The polling data coming from the oracle
              * @type {Object}
              */
-            pollData = {};
+            activePolls = {};
+            closedPolls = {};
+            currentHeight = 0;
+            balance = 0;
 
             constructor() {
                 super($scope);
-                votingService.fetchPolls().then(data => {
-                    this.pollData = data;
-                });
             }
 
-            $onDestroy() {
-                super.$onDestroy();
+            $onInit() {
+                user.loginSignal.on(this._updatePolls, this);
+                createPoll(this, this._updatePolls, () => null, 10 * 1000);
             }
 
-            getPollsAsArray() {
-                return Object.keys(this.pollData).map(k => this.pollData[k]);
+            async _updatePolls() {
+                const userAddress = user.address;
+                const [height, polls] = await Promise.all([
+                    waves.node.height(),
+                    votingService.fetchPolls({ userAddress })
+                ]);
+                const pollArray = Object.keys(polls).map(k => polls[k]);
+                this.currentHeight = height;
+                this.activePolls = pollArray.filter(p => p.end > height);
+                this.closedPolls = pollArray.filter(p => p.end <= height);
+                $scope.$digest();
+            }
+
+            _updateBalance() {
+                this.balance = balanceWatcher.getBalance()[WAVES_ID];
             }
 
         }
@@ -46,7 +60,10 @@
         'Base',
         '$scope',
         'waves',
-        'votingService'
+        'votingService',
+        'balanceWatcher',
+        'createPoll',
+        'user'
     ];
 
     angular.module('app.voting')

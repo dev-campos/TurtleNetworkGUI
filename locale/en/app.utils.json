@@ -1661,8 +1661,12 @@
 
             "understand": "I understand"
 
-        }
+        },
 
+        "vote" : {
+            "title" : "Vote",
+            "options": "Available Options"
+        }
     },
 
     "modals": {

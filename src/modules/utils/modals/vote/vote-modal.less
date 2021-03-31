@@ -1,0 +1,83 @@
+@import (reference) 'config';
+@import (reference) 'icons';
+
+md-dialog.vote {
+
+  md-dialog-content {
+    padding: 0 40px;
+  }
+
+  .header {
+    &__banner {
+      display: flex;
+      flex-direction: row;
+      margin: 1rem 0;
+      align-items: center;
+      height: 100px;
+
+      .vote-icon {
+        width: 64px;
+        height: 64px;
+        background-size: contain;
+        background-image: @vote-icon;
+        background-repeat: no-repeat;
+        margin-right: 2rem;
+        border-radius: 50%;
+        border: 2px solid grey;
+        flex: 0 0 64px;
+      }
+    }
+  }
+
+  .options {
+    .btn-wrap.btn-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 1rem;
+
+      .radio {
+        margin: 1rem 0;
+        user-select: none;
+
+        &__btn {
+          border-radius: @border-radius;
+          border: 1px dotted @color-basic-300;
+          font-size: 15px;
+          font-family: @font-roboto-medium;
+          transition: all 100ms ease-out;
+        }
+
+        &__input:checked ~ .radio__btn {
+          border: none;
+          cursor: pointer;
+          transition: all 100ms ease-out;
+          //font-size: 17px;
+        }
+      }
+
+    }
+  }
+}
+
+@media screen and (max-width: 540px) {
+  md-dialog.vote {
+    md-dialog-content {
+      padding: 0 20px;
+    }
+
+    .header {
+      &__banner {
+        display: flex;
+        flex-direction: column;
+        margin: 1rem 0;
+        align-items: center;
+        height: auto;
+
+        .vote-icon {
+          margin-right: 0;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,84 @@
+<div w-i18n-ns="app.voting">
+    <div class="voting-card__title">
+        <span class=" basic-900 headline-2">{{::$ctrl.pollData.title}}</span>
+        <img ng-if="$ctrl.isForPremiumUsers()" class="premium-icon"
+             title="Poll for Premium Users Only"
+             src="/img/icons/insignia.svg"
+        >
+    </div>
+    <hr/>
+    <div class="voting-card__visuals">
+        <!--            TODO: i18n-->
+        <div class="remaining-time-chart relative" title="{{$ctrl.blocksLeft}} blocks left">
+            <img ng-if="$ctrl._isClosed()" class="closed-voting-icon" src="/img/icons/check.svg"/>
+            <svg viewbox="0 0 36 36" class="circular-chart">
+                <path class="circle-bg"
+                      d="M18 2.0845
+          a 15.9155 15.9155 0 0 1 0 31.831
+          a 15.9155 15.9155 0 0 1 0 -31.831"
+                />
+                <path class="circle"
+                      stroke-dasharray="{{$ctrl.relativeElapsedTime * 100}}, 100"
+                      d="M18 2.0845
+          a 15.9155 15.9155 0 0 1 0 31.831
+          a 15.9155 15.9155 0 0 1 0 -31.831"
+                />
+            </svg>
+        </div>
+        <div class="current-votes-chart">
+            <div ng-if="$ctrl.hasVotes">
+                <span class="total-votes"
+                      w-i18n="totalVotes"
+                      params="{totalVotes: $ctrl.totalVotes}">
+                </span>
+                <div class="user-voted-option" ng-if="$ctrl.userVotedLabel">
+                    <img class="user-voted-option__icon" src="/img/icons/check.svg"/>
+                    <span class="user-voted-option__text caption-3"
+                          w-i18n="userVoted"
+                          params="{votedLabel: $ctrl.userVotedLabel}">
+                    </span>
+                </div>
+                <svg viewBox="0 0 1 0.1" class="bar-chart">
+                    <g class='bars'>
+                        <g ng-repeat="vote in $ctrl.votes" class="option">
+                            <rect
+                                    ng-attr-fill="{{vote.c}}"
+                                    ng-attr-x="{{vote.x}}"
+                                    ng-attr-width="{{vote.w}}"
+                                    ng-attr-height='100%'>
+                                <title class="label">
+                                    {{vote.l}}: {{vote.v}} Votes
+                                </title>
+                            </rect>
+                        </g>
+                    </g>
+                </svg>
+            </div>
+            <span ng-if="!$ctrl.hasVotes" class="body-2" w-i18n="noVotes"></span>
+        </div>
+    </div>
+</div>
+<div class="voting-text">
+    <p class="body-2">
+        {{::$ctrl.pollData.description}}
+    </p>
+</div>
+<div class="button_wrapper" w-i18n-ns="app.voting">
+    <w-button class="submit big long"
+              ng-if="$ctrl.isVotingEnabled()"
+              on-click="$ctrl.vote()"
+    >
+        <span ng-if="$ctrl.votingStatus === 'available'"  w-i18n="button.vote"></span>
+        <span ng-if="$ctrl.votingStatus === 'has_voted'" w-i18n="button.changeVote"></span>
+    </w-button>
+
+    <w-button class="submit big long"
+              disabled="true"
+              ng-if="!$ctrl.isVotingEnabled()"
+              on-click=""
+    >
+        <span ng-if="$ctrl.votingStatus === 'is_closed'" w-i18n="button.pollClosed"></span>
+        <span ng-if="$ctrl.votingStatus === 'not_eligible'" w-i18n="button.notEligible"></span>
+    </w-button>
+</div>
+</div>

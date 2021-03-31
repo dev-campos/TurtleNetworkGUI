@@ -6,7 +6,8 @@
   ],
   "oracles": {
     "waves": "3MgT3txVhjUBy8xXBYSbBSezoJNTr1naHhp",
-    "tokenomica": "3MgT3txVhjUBy8xXBYSbBSezoJNTr1naHhp"
+    "tokenomica": "3MgT3txVhjUBy8xXBYSbBSezoJNTr1naHhp",
+    "voting": ""
   },
   "apiVersion": "v0",
   "code": "S",

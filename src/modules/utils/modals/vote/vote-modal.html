@@ -1,0 +1,41 @@
+<w-step-by-step active-step="$ctrl.step">
+    <w-step>
+        <div class="header">
+            <div class="header__banner">
+                <div class="vote-icon"></div>
+                <h2 class="basic-900">{{::$ctrl.pollData.title}}</h2>
+            </div>
+        </div>
+
+        <div class="content margin-top-2 basic-900">
+
+            <div class="body-2 margin-bottom-2">{{::$ctrl.pollData.description}}</div>
+
+            <fieldset ng-disabled="$ctrl.signPending" ng-class="{ 'disabled': $ctrl.signPending }">
+                <form name="voteForm">
+                    <w-input-container class="margin-2">
+                        <div class="controls margin-1">
+                            <w-radio-wrap class="options" ng-model="$ctrl.vote" required>
+                                <w-radio class="radio radio_base"
+                                         ng-repeat="option in $ctrl.pollData.options track by $index"
+                                         value="$index+1">
+                                    <span class="radio__content">{{option.label}}</span>
+                                </w-radio>
+                            </w-radio-wrap>
+                        </div>
+                    </w-input-container>
+                </form>
+            </fieldset>
+            <w-sign-button disabled="voteForm.$invalid"
+                           on-click="$ctrl.getSignable()"
+                           on-success="$ctrl.next()">
+                <span w-i18n="button.continue"></span>
+            </w-sign-button>
+        </div>
+    </w-step>
+    <w-step>
+        <w-confirm-transaction signable="$ctrl.signable"
+                               on-click-back="$ctrl.step = $ctrl.step - 1">
+        </w-confirm-transaction>
+    </w-step>
+</w-step-by-step>

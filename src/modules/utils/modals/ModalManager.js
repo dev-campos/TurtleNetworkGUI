@@ -717,6 +717,18 @@
                 });
             }
 
+            showVoteModal(pollData) {
+                return this._getModal({
+                    id: 'vote',
+                    mod: 'vote',
+                    locals: { pollData },
+                    titleContent: '<span w-i18n="modal.vote.title""></span>',
+                    contentUrl: 'modules/utils/modals/vote/vote-modal.html',
+                    controller: 'VoteModalCtrl'
+                });
+            }
+
+
             /**
              * @param {IDialogOptions} options
              * @return {Promise}
