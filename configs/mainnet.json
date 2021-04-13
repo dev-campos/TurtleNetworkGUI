@@ -95,7 +95,7 @@
       "otherNetwork": "Ethereum"
     },
     "6Mh41byVWPg8JVCfuwG5CAPCh9Q7gnuaAVxjDfVNDmcD": {
-      "url": "https://ethgw.turtlenetwork.eu/",
+      "url": "https://gateway-service.polarity.exchange",
       "isThirdParty": true,
       "regex": "^0x[a-fA-F0-9]{40}$",
       "otherNetwork": "Ethereum"
