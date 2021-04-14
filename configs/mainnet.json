@@ -99,6 +99,24 @@
       "isThirdParty": true,
       "regex": "^0x[a-fA-F0-9]{40}$",
       "otherNetwork": "Ethereum"
+    },
+    "BknLVPoKrWowgH946guVqLNsCZe1aFQaXS5GseFZCo99": {
+      "url": "https://gateway-service.polarity.exchange",
+      "isThirdParty": false,
+      "regex": "^[48][0-9AB][1-9A-HJ-NP-Za-km-z]{93}$",
+      "name": "Monero",
+      "network": "Monero",
+      "ticker": "XMR",
+      "otherNetwork": "Monero"
+    },
+    "AvsQX6MaRvLqo78JMxWHzZjkfTaX4K6SGSKEw8SVjLgw": {
+      "url": "https://gateway-service.polarity.exchange",
+      "isThirdParty": false,
+      "regex": "^0x[a-fA-F0-9]{40}$",
+      "name": "ChainLink",
+      "network": "ERC-20",
+      "ticker": "LINK",
+      "otherNetwork": "Ethereum"
     }
   },
   "support": "https://support@turtlenetwork.eu",
@@ -123,7 +141,9 @@
     "SENT": "AVJc3uYu8HdjQEx4rroaq6v4Xv4L1etG1tQPeuqs38Sf",
     "BCH": "Fr2kNhe7XR3E16W7Mfh7NhNcsQWLXx3hSLjoFgpbFsNj",
     "ARRR": "9gTWnHstaAkhD7hEGBqNdgcAru5872d8Xf1QmoPrz5iz",
-    "USDT": "7RB3BWayeCVPq3kkpkeJZAFv2DYCB5gEwnutEpRofaw4"
+    "USDT": "7RB3BWayeCVPq3kkpkeJZAFv2DYCB5gEwnutEpRofaw4",
+    "XMR": "BknLVPoKrWowgH946guVqLNsCZe1aFQaXS5GseFZCo99",
+    "LINK": "AvsQX6MaRvLqo78JMxWHzZjkfTaX4K6SGSKEw8SVjLgw"
   },
   "matcherPriorityList": [
     { "ticker": "BTC", "id": "5Asy9P3xjcvBAgbeyiitZhBRJZJ2TPGSZJz9ihDTnB3d" },
