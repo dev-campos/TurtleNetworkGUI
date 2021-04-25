@@ -58,11 +58,6 @@
       "isThirdParty": true,
       "regex": "^0x[0-9a-f]{40}$"
     },
-    "9gTWnHstaAkhD7hEGBqNdgcAru5872d8Xf1QmoPrz5iz": {
-      "url": "https://tn-arrr.komodo.gateway.polarity.exchange/",
-      "isThirdParty": true,
-      "regex": "^zs1[a-zA-Z0-9]{75}$"
-    },
     "Fr2kNhe7XR3E16W7Mfh7NhNcsQWLXx3hSLjoFgpbFsNj": {
       "url": "https://bchgw.turtlenetwork.eu",
       "isThirdParty": false,
@@ -93,6 +88,12 @@
       "isThirdParty": true,
       "regex": "^0x[a-fA-F0-9]{40}$",
       "otherNetwork": "Ethereum"
+    },
+    "9gTWnHstaAkhD7hEGBqNdgcAru5872d8Xf1QmoPrz5iz": {
+      "url": "https://gateway-service.polarity.exchange",
+      "isThirdParty": true,
+      "regex": "^zs1[a-zA-Z0-9]{75}$",
+      "otherNetwork": "PirateChain"
     },
     "6Mh41byVWPg8JVCfuwG5CAPCh9Q7gnuaAVxjDfVNDmcD": {
       "url": "https://ethgw.turtlenetwork.eu/",
