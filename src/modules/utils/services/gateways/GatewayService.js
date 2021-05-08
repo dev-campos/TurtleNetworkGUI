@@ -58,11 +58,11 @@
 
             }
 
-            getRobinAddress(asset, walletAddress, toTN) {
+            getRobinAddress(asset, walletAddress, toTN, recaptcha) {
                 const gateway = this._findGatewayFor(asset, 'deposit');
 
                 if (gateway) {
-                    return gateway.getRobinAddress(asset, walletAddress, toTN);
+                    return gateway.getRobinAddress(asset, walletAddress, toTN, recaptcha);
                 }
 
             }

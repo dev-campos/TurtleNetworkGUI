@@ -51,7 +51,7 @@
             }
 
             // Only used for round robin type gateways
-            getRobinAddress(asset, walletAddress, toTN) {
+            getRobinAddress(asset, walletAddress, toTN, recaptcha) {
                 WavesGatewayService._assertAsset(asset.id);
 
                 const OTHERNETWORK = `${WavesApp.network.wavesGateway[asset.id].otherNetwork}`;
@@ -72,7 +72,8 @@
                     ticker: TICKER,
                     dstAddress: walletAddress,
                     srcNetwork: src,
-                    dstNetwork: dst
+                    dstNetwork: dst,
+                    recaptcha: recaptcha
                 });
 
                 return ds
