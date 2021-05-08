@@ -266,6 +266,8 @@
             }
 
             _onChangeAssetId() {
+                this.recaptcha = null;
+                this.completedRecaptcha = false;
                 super._onChangeAssetId();
                 this.updateGatewayData();
             }
