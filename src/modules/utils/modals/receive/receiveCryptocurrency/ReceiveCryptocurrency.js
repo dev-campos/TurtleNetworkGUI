@@ -135,6 +135,8 @@
             async updateGatewayAddress() {
                 this.gatewayServerError = false;
                 this.gatewayServerPending = true;
+                this.recaptcha = null;
+                this.completedRecaptcha = false;
                 if (!this.asset) {
                     const gatewayList = WavesApp.network.wavesGateway;
                     this.asset = gatewayList[Object.keys(gatewayList)[0]];
