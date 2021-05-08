@@ -73,11 +73,6 @@
       "isThirdParty": false,
       "regex": "^[LM3][a-km-zA-HJ-NP-Z1-9]{26,33}$"
     },
-    "GzHRyYtdwvaGSkUC4i8d3Xzmsz9aXBWdrpMNszi6bcvR": {
-      "url": "https://ether1tnswap.kgbconcepts.network/",
-      "isThirdParty": true,
-      "regex": "^0x[a-fA-F0-9]{40}$"
-    },
     "7RB3BWayeCVPq3kkpkeJZAFv2DYCB5gEwnutEpRofaw4": {
       "url": "https://gateway-service.polarity.exchange",
       "isThirdParty": true,
@@ -119,6 +114,12 @@
       "isThirdParty": false,
       "regex": "^0x[a-fA-F0-9]{40}$",
       "otherNetwork": "Ethereum"
+    },
+    "GzHRyYtdwvaGSkUC4i8d3Xzmsz9aXBWdrpMNszi6bcvR": {
+      "url": "https://gateway-service.polarity.exchange",
+      "isThirdParty": false,
+      "regex": "^0x[a-fA-F0-9]{40}$",
+      "otherNetwork": "ETHOProtocol"
     }
   },
   "support": "https://support@turtlenetwork.eu",
