@@ -53,11 +53,6 @@
       "isThirdParty": true,
       "regex": "^0x[a-fA-F0-9]{40}$"
     },
-    "AVJc3uYu8HdjQEx4rroaq6v4Xv4L1etG1tQPeuqs38Sf": {
-      "url": "https://tn-sent.ethereum.gateway.polarity.exchange",
-      "isThirdParty": true,
-      "regex": "^0x[0-9a-f]{40}$"
-    },
     "Fr2kNhe7XR3E16W7Mfh7NhNcsQWLXx3hSLjoFgpbFsNj": {
       "url": "https://bchgw.turtlenetwork.eu",
       "isThirdParty": false,
@@ -117,6 +112,12 @@
       "name": "ChainLink",
       "network": "ERC-20",
       "ticker": "LINK",
+      "otherNetwork": "Ethereum"
+    },
+    "AVJc3uYu8HdjQEx4rroaq6v4Xv4L1etG1tQPeuqs38Sf": {
+      "url": "https://gateway-service.polarity.exchange",
+      "isThirdParty": false,
+      "regex": "^0x[a-fA-F0-9]{40}$",
       "otherNetwork": "Ethereum"
     }
   },
