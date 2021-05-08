@@ -35,9 +35,17 @@
         </w-select>
     </div>
 
+    <div ng-if="($ctrl.gatewayType === 'round-robin' && !$ctrl.completedRecaptcha)">
+        <h1 w-i18n="modal.send.gateway.recaptchaWarning"></h1>
+        <div id="recaptcha" vc-recaptcha  ng-model="$ctrl.recaptcha" class="g-recaptcha" key="'6LeRgG0aAAAAABrxfPtMLAqSkEfo05Gr65iYbrak'"></div>
+        <w-button on-click="$ctrl.mySubmit()" disabled="!$ctrl.recaptcha" class="submit big long">
+            <span w-i18n="modal.send.gateway.submit"></span>
+        </w-button>
+    </div>
 
 
-    <div class="plate-warning" ng-if="!$ctrl.gatewayServerError && !$ctrl.gatewayServerPending && $ctrl.gatewayType !== 'tunnel'">
+
+    <div class="plate-warning" ng-if="!$ctrl.gatewayServerError && !$ctrl.gatewayServerPending && $ctrl.gatewayType !== 'tunnel' && $ctrl.gatewayType !== 'round-robin'">
         <div class="body-2 warning-500 bold" w-i18n="modal.deposit.warningTitle" params="{ assetTicker: $ctrl.asset.displayName}"></div>
         <div class="footnote-1 basic-500 margin-05" w-i18n="modal.deposit.warningText" params="{ assetTicker: $ctrl.asset.displayName}"></div>
 
@@ -72,7 +80,42 @@
 
     </div>
 
-    <div class="plate-warning" ng-if="!$ctrl.gatewayServerError && !$ctrl.gatewayServerPending && $ctrl.gatewayType === 'round-robin'">
+    <div class="plate-warning" ng-if="!$ctrl.gatewayServerError && !$ctrl.gatewayServerPending && ($ctrl.gatewayType === 'round-robin' && $ctrl.completedRecaptcha)">
+        <div class="body-2 warning-500 bold" w-i18n="modal.deposit.warningTitle" params="{ assetTicker: $ctrl.asset.displayName}"></div>
+        <div class="footnote-1 basic-500 margin-05" w-i18n="modal.deposit.warningText" params="{ assetTicker: $ctrl.asset.displayName}"></div>
+
+        <div class="body-2 basic-900 margin-05" ng-if="!$ctrl.gatewayServerError  && $ctrl.gatewayType !== 'tunnel'">
+            <span w-i18n="modal.deposit.copyAndShare"></span>
+            <w-help-icon>
+                <div class="help-icon__row headline-3" ng-if="$ctrl.asset.displayName !== 'TN'">
+                    <span w-i18n="modal.deposit.helpDescrTitle"
+                    params="{  assetTicker: $ctrl.asset.displayName  }"></span>
+                </div>
+                <div class="help-icon__row headline-3" ng-if="$ctrl.asset.displayName === 'TN'">
+                    <span w-i18n="modal.deposit.helpDescrTitle"
+                    params="{  assetTicker: 'WAVES'  }"></span>
+                </div>
+                <div class="help-icon__row">
+                    <span w-i18n="modal.deposit.helpDescrText"></span>
+                </div>
+                <div class="help-icon__row">
+                    <span w-i18n="modal.deposit.pleaseNote"></span>
+                </div>
+            </w-help-icon>
+        </div>
+
+        <w-copy-wrap
+            class="copy-wrap copy-wrap_receive body-1"
+            info="$ctrl.gatewayAddress"
+            ng-if="!$ctrl.gatewayServerError && $ctrl.gatewayType !== 'tunnel'"
+        >
+            {{$ctrl.gatewayAddress}}
+            <w-loader class="loader" ng-if="!$ctrl.gatewayAddress"></w-loader>
+        </w-copy-wrap>
+
+    </div>
+
+    <div class="plate-warning" ng-if="!$ctrl.gatewayServerError && !$ctrl.gatewayServerPending && ($ctrl.gatewayType === 'round-robin' && $ctrl.completedRecaptcha)">
         <div class="body-2 warning-500 bold" w-i18n="modal.deposit.expiryWarningTitle"></div>
         <div class="footnote-1 basic-500 margin-05" w-i18n="modal.deposit.expiryWarningText"  params="{ expiry: $ctrl.gatewayExpiry.toLocaleString() }"></div>
     </div>
@@ -93,54 +136,95 @@
             }"></div>
     </div>
 
-    <div class="plate-warning" ng-if="!$ctrl.gatewayServerError && !$ctrl.gatewayServerPending">
-        <div class="body-2 warning-500 margin-05 bold"
-             w-i18n="modal.deposit.warningMinAmountTitle"
-             params="{  minAmount: $ctrl.minAmount.getTokens(),
-                        assetTicker: $ctrl.asset.displayName,
-                        maxAmount: $ctrl.maxAmount.getTokens().toFormat()  }"
-        ></div>
-        <div class="footnote-1 basic-500"
-             ng-if="!$ctrl.isWEST" w-i18n="modal.deposit.warningMinAmountText"
-             params="{minAmount: $ctrl.minAmount.getTokens(), assetTicker: $ctrl.asset.displayName}"
-        ></div>
+    <div ng-if="!$ctrl.gatewayServerError && !$ctrl.gatewayServerPending && $ctrl.gatewayType !== 'round-robin'">
+        <div class="plate-warning">
+            <div class="body-2 warning-500 margin-05 bold"
+                 w-i18n="modal.deposit.warningMinAmountTitle"
+                 params="{  minAmount: $ctrl.minAmount.getTokens(),
+                            assetTicker: $ctrl.asset.displayName,
+                            maxAmount: $ctrl.maxAmount.getTokens().toFormat()  }"
+            ></div>
+            <div class="footnote-1 basic-500"
+                 ng-if="!$ctrl.isWEST" w-i18n="modal.deposit.warningMinAmountText"
+                 params="{minAmount: $ctrl.minAmount.getTokens(), assetTicker: $ctrl.asset.displayName}"
+            ></div>
+    
+            <div class="footnote-1 basic-500"
+            w-i18n="modal.deposit.disclaimer"
+            params="{  disclaimerLink: $ctrl.disclaimerLink  }"></div>
+    
+            <div class="footnote-1 basic-500"
+                 w-i18n="modal.deposit.totalFee"
+                 params="{totalFee: $ctrl.totalFee,  assetTicker: $ctrl.asset.displayName}"
+            ></div>
+    
+            <div class="footnote-1 basic-500"
+            w-i18n="modal.deposit.recoveryStatement"
+            params="{  minRecoveryAmount: $ctrl.minRecoveryAmount,
+                recoveryFee: $ctrl.recoveryFee,
+            }"></div>
+       </div>
+    
+       <div class="plate-warning">
+    
+            <div class="body-2 warning-500 margin-05 bold"
+            w-i18n="modal.deposit.support"
+            params="{  supportEmail: $ctrl.supportEmail  }"></div>
+    
+            <div class="footnote-1 basic-500"
+            w-i18n="modal.deposit.operator"
+            params="{  operator: $ctrl.operator  }"></div>
+       </div>
+    </div>
 
-        <div class="footnote-1 basic-500"
-        w-i18n="modal.deposit.disclaimer"
-        params="{  disclaimerLink: $ctrl.disclaimerLink  }"></div>
+    <div ng-if="!$ctrl.gatewayServerError && !$ctrl.gatewayServerPending && ($ctrl.gatewayType === 'round-robin' && $ctrl.completedRecaptcha)">
+        <div class="plate-warning">
+            <div class="body-2 warning-500 margin-05 bold"
+                 w-i18n="modal.deposit.warningMinAmountTitle"
+                 params="{  minAmount: $ctrl.minAmount.getTokens(),
+                            assetTicker: $ctrl.asset.displayName,
+                            maxAmount: $ctrl.maxAmount.getTokens().toFormat()  }"
+            ></div>
+            <div class="footnote-1 basic-500"
+                 ng-if="!$ctrl.isWEST" w-i18n="modal.deposit.warningMinAmountText"
+                 params="{minAmount: $ctrl.minAmount.getTokens(), assetTicker: $ctrl.asset.displayName}"
+            ></div>
+    
+            <div class="footnote-1 basic-500"
+            w-i18n="modal.deposit.disclaimer"
+            params="{  disclaimerLink: $ctrl.disclaimerLink  }"></div>
+    
+            <div class="footnote-1 basic-500"
+                 w-i18n="modal.deposit.totalFee"
+                 params="{totalFee: $ctrl.totalFee,  assetTicker: $ctrl.asset.displayName}"
+            ></div>
+    
+            <div class="footnote-1 basic-500"
+            w-i18n="modal.deposit.recoveryStatement"
+            params="{  minRecoveryAmount: $ctrl.minRecoveryAmount,
+                recoveryFee: $ctrl.recoveryFee,
+            }"></div>
+       </div>
+    
+       <div class="plate-warning">
+    
+            <div class="body-2 warning-500 margin-05 bold"
+            w-i18n="modal.deposit.support"
+            params="{  supportEmail: $ctrl.supportEmail  }"></div>
+    
+            <div class="footnote-1 basic-500"
+            w-i18n="modal.deposit.operator"
+            params="{  operator: $ctrl.operator  }"></div>
+       </div>
+    </div>
 
-        <div class="footnote-1 basic-500"
-             w-i18n="modal.deposit.totalFee"
-             params="{totalFee: $ctrl.totalFee,  assetTicker: $ctrl.asset.displayName}"
-        ></div>
-
-        <div class="footnote-1 basic-500"
-        w-i18n="modal.deposit.recoveryStatement"
-        params="{  minRecoveryAmount: $ctrl.minRecoveryAmount,
-            recoveryFee: $ctrl.recoveryFee,
-        }"></div>
-   </div>
-
-   <div class="plate-warning" ng-if="!$ctrl.gatewayServerError && !$ctrl.gatewayServerPending">
-
-        <div class="body-2 warning-500 margin-05 bold"
-        w-i18n="modal.deposit.support"
-        params="{  supportEmail: $ctrl.supportEmail  }"></div>
-
-        <div class="footnote-1 basic-500"
-        w-i18n="modal.deposit.operator"
-        params="{  operator: $ctrl.operator  }"></div>
-   </div>
-
-
-
-    <div class="get-started-link__or or" ng-if="!$ctrl.gatewayServerError && ($ctrl.gatewayType === 'deposit' || $ctrl.gatewayType === 'round-robin')">
+    <div class="get-started-link__or or" ng-if="!$ctrl.gatewayServerError && ($ctrl.gatewayType === 'deposit' || ($ctrl.gatewayType === 'round-robin' && $ctrl.completedRecaptcha))">
         <span class="get-started-link__or-content" w-i18n="modal.deposit.or"></span>
     </div>
-    <div class="qr-wrapper center margin-2" ng-if="!$ctrl.gatewayServerError && ($ctrl.gatewayType === 'deposit' || $ctrl.gatewayType === 'round-robin')" w-toggle-class-container>
+    <div class="qr-wrapper center margin-2" ng-if="!$ctrl.gatewayServerError && ($ctrl.gatewayType === 'deposit' || ($ctrl.gatewayType === 'round-robin' && $ctrl.completedRecaptcha))" w-toggle-class-container>
         <div class="body-2 basic-900 margin-05" w-i18n="modal.deposit.scanQrCode"></div>
 
-        <w-qr-code ng-if="!$ctrl.gatewayServerError && ($ctrl.gatewayType === 'deposit' || $ctrl.gatewayType === 'round-robin')" size="200" url="$ctrl.gatewayAddress" w-toggle-class="zoomed-in"></w-qr-code>
+        <w-qr-code ng-if="!$ctrl.gatewayServerError && ($ctrl.gatewayType === 'deposit' || ($ctrl.gatewayType === 'round-robin' && $ctrl.completedRecaptcha))" size="200" url="$ctrl.gatewayAddress" w-toggle-class="zoomed-in"></w-qr-code>
 
         <div class="pointer center footnote-1 margin-top-1 basic-500"
             w-toggle-class="zoomed-in"

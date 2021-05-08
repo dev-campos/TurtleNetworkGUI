@@ -97,7 +97,6 @@
         'ngMaterial',
         'ui.router',
         'ui.router.state.events',
-
         'app.templates',
         'app.utils',
         'app.ui',
@@ -120,7 +119,8 @@
         'app.tokens',
         'app.voting',
         'app.unavailable',
-        'app.stand'
+        'app.stand',
+        'vcRecaptcha'
     ]);
 })();
 

@@ -59,6 +59,10 @@
              */
             wavesGateway = WavesApp.network.wavesGateway;
 
+            recaptcha = null;
+
+            completedRecaptcha = false;
+
             /**
              * @type {number}
              */
@@ -86,7 +90,6 @@
 
             $postLink() {
                 this.receive(utils.observe(this.tx, 'recipient'), this._onUpdateRecipient, this);
-                this._getRobinAddress();
                 this.observe(['gatewayAddressError', 'gatewayDetailsError', 'gatewayWrongAddress'],
                     this._updateGatewayError);
 
@@ -195,9 +198,10 @@
              */
             _onUpdateRecipient() {
                 this.robinAddress = null;
+                this.recaptcha = null;
+                this.completedRecaptcha = null;
                 this.onChangeRecipient();
                 this.updateGatewayData();
-                this._getRobinAddress();
             }
 
             /**
@@ -268,13 +272,19 @@
 
             _getRobinAddress() {
                 Promise.resolve(waves.node.assets.getAsset(this.assetId)).then((asset) => {
-                    gatewayService.getRobinAddress(asset, this.tx.recipient, false)
+                    gatewayService.getRobinAddress(asset, this.tx.recipient, false, this.recaptcha)
                         .then(result => {
                             this.robinAddress = result.address;
                             this.robinLoading = false;
                             $scope.$apply();
                         });
                 });
+            }
+
+            mySubmit() {
+                this._getRobinAddress();
+                this.completedRecaptcha = true;
+                utils.safeApply($scope);
             }
 
         }

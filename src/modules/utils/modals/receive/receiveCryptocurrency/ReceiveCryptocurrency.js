@@ -10,7 +10,7 @@
      * @param {User} user
      * @return {ReceiveCryptocurrency}
      */
-    const controller = function (Base, $scope, gatewayService, user) {
+    const controller = function (Base, $scope, gatewayService, user, utils) {
 
         /**
          * @extends {ng.IController}
@@ -117,6 +117,10 @@
              */
             walletAddress = null;
 
+            recaptcha = null;
+
+            completedRecaptcha = false;
+
             constructor() {
                 super();
 
@@ -166,11 +170,8 @@
                     }
 
                     if (this.gatewayType === 'round-robin') {
-                        await gatewayService.getRobinAddress(this.asset, user.address, true)
-                            .then(result => {
-                                this.gatewayAddress = result.address;
-                                this.gatewayExpiry = new Date(result.expiry);
-                            });
+                        this.gatewayAddress = null;
+                        this.gatewayExpiry = null;
                     }
 
                     this.assetKeyName = gatewayService.getAssetKeyName(this.asset, 'deposit');
@@ -181,12 +182,27 @@
                 $scope.$apply();
             }
 
+            updateRobin() {
+                gatewayService.getRobinAddress(this.asset, user.address, true, this.recaptcha)
+                    .then(result => {
+                        this.gatewayAddress = result.address;
+                        this.gatewayExpiry = new Date(result.expiry);
+                        utils.safeApply($scope);
+                    });
+            }
+
+            mySubmit() {
+                this.updateRobin();
+                this.completedRecaptcha = true;
+                utils.safeApply($scope);
+            }
+
         }
 
         return new ReceiveCryptocurrency();
     };
 
-    controller.$inject = ['Base', '$scope', 'gatewayService', 'user'];
+    controller.$inject = ['Base', '$scope', 'gatewayService', 'user', 'utils'];
 
     angular.module('app.utils').component('wReceiveCryptocurrency', {
         controller,
